@@ -13,7 +13,7 @@ defmodule Dez.Router do
   end
 
   scope "/", Dez do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", PageController, :index
     resources "/companies", CompanyController

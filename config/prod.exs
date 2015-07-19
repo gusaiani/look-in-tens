@@ -47,6 +47,14 @@ config :logger, level: :info
 #     config :dez, Dez.Endpoint, server: true
 #
 
-# Finally import the config/prod.secret.exs
-# which should be versioned separately.
-import_config "prod.secret.exs"
+# In this file, we keep production configuration that
+# you likely want to automate and keep it away from
+# your version control system.
+config :dez, Dez.Endpoint,
+  secret_key_base: System.get_env("SECRET_KEY_BASE")
+
+# Configure your database
+config :dez, Dez.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  size: 20

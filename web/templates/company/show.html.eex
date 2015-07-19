@@ -1,0 +1,12 @@
+<h2>Show company</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @company.name %>
+  </li>
+
+</ul>
+
+<%= link "Back", to: company_path(@conn, :index) %>

@@ -8,6 +8,7 @@
 
 /* Space out content a bit */
 body, form, ul, table {
+  background: rgb(252, 245, 236);
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -25,11 +26,14 @@ form.link, form.button {
   border-bottom: 1px solid #e5e5e5;
 }
 .logo {
-  width: 519px;
-  height: 71px;
-  display: inline-block;
-  margin-bottom: 1em;
   background-size: 519px 71px;
+  display: inline-block;
+  height: 41px;
+  margin-bottom: 1em;
+  text-align: center;
+  width: 100%;
+  font-size: 40px;
+  font-weight: bold;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */

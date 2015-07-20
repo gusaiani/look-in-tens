@@ -10,7 +10,7 @@
 <ol>
   <li>If the number is negative almost no one will publish a negative P/E. They’ll just say N/A (not available).</li>
   <li>Almost all services will give you P/E values over trailing twelve months(ttm). That’s too little.</li>
-  <li>In any given time, a lot can be happening with a firm’s accounting that severely distorts any metric, and P/E is surely one of them.</li>
+  <li>At any given time, a lot can be happening with a firm’s accounting that severely distorts any metric, and P/E is surely one of them.</li>
 </ol>
 
 <p>Looking at a company’s development over 10 years can help value it more accurately. So we are starting with the most basic of all the metrics, P/E, and striving to make it instantaneous to look it up for any publicly listed company in the US, Europe and Brazil. Our vision is to do that right, and take it from there.</p>

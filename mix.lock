@@ -11,4 +11,5 @@
   "poison": {:hex, :poison, "1.4.0"},
   "poolboy": {:hex, :poolboy, "1.5.1"},
   "postgrex": {:hex, :postgrex, "0.8.4"},
+  "quantum": {:hex, :quantum, "1.3.0"},
   "ranch": {:hex, :ranch, "1.1.0"}}

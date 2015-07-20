@@ -1,39 +1,16 @@
 <div class="jumbotron">
-  <h2>Welcome to Phoenix!</h2>
-  <p class="lead">Most web frameworks make you choose between speed and a productive environment. <a href="http://phoenixframework.org">Phoenix</a> and <a href="http://elixir-lang.org">Elixir</a> give you both.</p>
+  <h2>Welcome</h2>
+  <p class="lead">
+    On July 19, 2015, we started building a tool to easily look up public companies’ <a target="_blank" href="https://en.wikipedia.org/wiki/Price%E2%80%93earnings_ratio">P/E values</a> — over trailing 10 years.
+  </p>
 </div>
 
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="http://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
-  </div>
+<p>Price-over-earning values are a very basic investment metric, but we see 3 fundamental problems with the way they are presented everywhere:</p>
 
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/issues?state=open">Issues</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
-  </div>
-</div>
+<ol>
+  <li>If the number is negative almost no one will publish a negative P/E. They’ll just say N/A (not available).</li>
+  <li>Almost all services will give you P/E values over trailing twelve months(ttm). That’s too little.</li>
+  <li>In any given time, a lot can be happening with a firm’s accounting that severely distorts any metric, and P/E is surely one of them.</li>
+</ol>
+
+<p>Looking at a company’s development over 10 years can help value it more accurately. So we are starting with the most basic of all the metrics, P/E, and striving to make it instantaneous to look it up for any publicly listed company in the US, Europe and Brazil. Our vision is to do that right, and take it from there.</p>

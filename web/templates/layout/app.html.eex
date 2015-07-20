@@ -14,7 +14,7 @@
   <body>
     <div class="container" role="main">
       <div class="header">
-        <span class="logo">Dez</span>
+        <span class="logo">Look in Tens</span>
       </div>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

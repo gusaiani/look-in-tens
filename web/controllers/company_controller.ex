@@ -16,7 +16,8 @@ defmodule Dez.CompanyController do
   end
 
   def create(conn, %{"company" => company_params}) do
-    changeset = Company.changeset(%Company{}, company_params)
+    # changeset = Company.changeset(%Company{}, company_params)
+    changeset = Company.changeset(%Company{}, %{"name" => fake_name()})
 
     if changeset.valid? do
       Repo.insert!(changeset)
@@ -62,5 +63,11 @@ defmodule Dez.CompanyController do
     conn
     |> put_flash(:info, "Company deleted successfully.")
     |> redirect(to: company_path(conn, :index))
+  end
+
+  defp fake_name do
+    :crypto.strong_rand_bytes(4)
+    |> :base64.encode_to_string
+    |> to_string
   end
 end

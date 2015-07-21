@@ -14,3 +14,14 @@
 </ol>
 
 <p>Looking at a company’s development over 10 years can help value it more accurately. So we are starting with the most basic of all the metrics, P/E, and striving to make it instantaneous to look it up for any publicly listed company in the US, Europe and Brazil. Our vision is to do that right, and take it from there.</p>
+
+<br>
+<h2>Log</h2>
+<br>
+<h5>2015 07 21 09:07</h5>
+<p>
+  Learned how to invoke IEx.pry<br>
+  Learned how to hard code a changeset.<br>
+  Learned how to generate a random string in Elixir.<br>
+  Learned how to store that random string as a new company name in companies#create.
+</p>

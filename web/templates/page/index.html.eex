@@ -18,6 +18,11 @@
 <br>
 <h2>Log</h2>
 <br>
+<h5>2015 07 22 08:19</h5>
+<p>
+  Set up cron job using <a href="https://github.com/c-rack/quantum-elixir" target="_blank">Quantum</a>.
+</p>
+<br>
 <h5>2015 07 21 09:07</h5>
 <p>
   Learned how to invoke IEx.pry<br>

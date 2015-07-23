@@ -5,6 +5,16 @@ defmodule Dez.CompanyController do
 
   plug :scrub_params, "company" when action in [:create, :update]
 
+  def scrape do
+    new_name  = fake_name()
+    changeset = Company.changeset(%Company{}, %{"name" => new_name})
+
+    if changeset.valid? do
+      Repo.insert!(changeset)
+      IO.puts "New company added: #{new_name}!"
+    end
+  end
+
   def index(conn, _params) do
     companies = Repo.all(Company)
     render(conn, "index.html", companies: companies)
@@ -16,8 +26,7 @@ defmodule Dez.CompanyController do
   end
 
   def create(conn, %{"company" => company_params}) do
-    # changeset = Company.changeset(%Company{}, company_params)
-    changeset = Company.changeset(%Company{}, %{"name" => fake_name()})
+    changeset = Company.changeset(%Company{}, company_params)
 
     if changeset.valid? do
       Repo.insert!(changeset)

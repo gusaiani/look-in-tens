@@ -12,10 +12,9 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# config :quantum, cron: [
-  # "* * * * *": {Dez.CompanyController, :create}
-  # "* * * * *": fn -> IO.puts 'oba' end
-# ]
+config :quantum, cron: [
+  "* * * * *": {Dez.CompanyController, :scrape}
+]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

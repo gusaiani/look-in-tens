@@ -18,9 +18,11 @@
 <br>
 <h2>Log</h2>
 <br>
-<h5>2015 07 22 08:19</h5>
+<h5>2015 07 22 22:43</h5>
 <p>
-  Set up cron job using <a href="https://github.com/c-rack/quantum-elixir" target="_blank">Quantum</a>.
+  Set up cron job using <a href="https://github.com/c-rack/quantum-elixir" target="_blank">Quantum</a>.<br>
+  Learned how to access a simple controller method from cron job.<br>
+  At this point, a new fake company should be created every minute at <a href="/companies">/companies</a>.
 </p>
 <br>
 <h5>2015 07 21 09:07</h5>

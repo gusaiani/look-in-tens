@@ -16,8 +16,35 @@
 <p>Looking at a company’s development over 10 years can help value it more accurately. So we are starting with the most basic of all the metrics, P/E, and striving to make it instantaneous to look it up for any publicly listed company in the US, Europe and Brazil. Our vision is to do that right, and take it from there.</p>
 
 <br>
-<h2>Log</h2>
+
+<h2>Technicalities</h2>
 <br>
+<p>
+  Look in Tens is being written using <a target="_blank" href="http://www.phoenixframework.org/">Phoenix</a>.
+</p>
+<p>
+  Phoenix is a development framework for the young <a target="_blank" href="http://elixir-lang.org/">Elixir</a> language.
+</p>
+<p>
+  We are learning it as we go along.<br>
+  In the log section below we post advancements, and how we achieved them.<br>
+  It should quickly become clear we’re not extraordinary programmers by any means.<br>
+  So please, tell us on <a target="_blank" href="https://www.twitter.com/gusaiani">Twitter</a> or <a href="mailto:gustavo@poe.ma">email</a> if you know how to do what we did only better.
+</p>
+<br>
+
+<h3>Log</h3>
+<br>
+<h5>2015 07 25 23:14</h5>
+<p>
+  After a successful automated population of data, learned how to clean the database.
+  <br>
+  Did this by doing mix ecto.rollback, which loses all previous changes since the first migration, and a new mix ecto.migrate.
+  <br>
+  Honestly could not find the equivalent of Rails’ rake db:reset or rake db:setup.
+</p>
+<br>
+
 <h5>2015 07 22 22:43</h5>
 <p>
   Set up cron job using <a href="https://github.com/c-rack/quantum-elixir" target="_blank">Quantum</a>.<br>
@@ -25,6 +52,7 @@
   At this point, a new fake company should be created every minute at <a href="/companies">/companies</a>.
 </p>
 <br>
+
 <h5>2015 07 21 09:07</h5>
 <p>
   Learned how to invoke IEx.pry<br>

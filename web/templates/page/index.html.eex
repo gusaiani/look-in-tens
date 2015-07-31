@@ -35,6 +35,13 @@
 
 <h3>Log</h3>
 <br>
+
+<h5>2015 07 31 08:55</h5>
+<p>
+  Upgraded to Phoenix 0.15.
+</p>
+<br>
+
 <h5>2015 07 25 23:14</h5>
 <p>
   After a successful automated population of data, learned how to clean the database.

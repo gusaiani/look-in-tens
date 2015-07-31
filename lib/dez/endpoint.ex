@@ -12,6 +12,7 @@ defmodule Dez.Endpoint do
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
+    socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
   end
@@ -32,5 +33,5 @@ defmodule Dez.Endpoint do
     key: "_dez_key",
     signing_salt: "QdcJCDO3"
 
-  plug :router, Dez.Router
+  plug Dez.Router
 end

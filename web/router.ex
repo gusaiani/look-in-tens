@@ -18,9 +18,4 @@ defmodule Dez.Router do
     get "/", PageController, :index
     resources "/companies", CompanyController
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Dez do
-  #   pipe_through :api
-  # end
 end

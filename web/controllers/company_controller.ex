@@ -6,14 +6,27 @@ defmodule Dez.CompanyController do
   plug :scrub_params, "company" when action in [:create, :update]
 
   def scrape do
-    new_name  = fake_name()
-    changeset = Company.changeset(%Company{}, %{"name" => new_name})
+    url = "https://raw.githubusercontent.com/matthewfieger/bloomberg_stock_data/master/tickers/nyse.csv"
 
-    if changeset.valid? do
-      Repo.insert!(changeset)
-      IO.puts "New company added: #{new_name}!"
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        IO.puts body
+      {:ok, %HTTPoison.Response{status_code: 404}} ->
+        IO.puts "Not found :("
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        IO.inspect reason
     end
   end
+
+  # def scrape do
+  #   new_name  = fake_name()
+  #   changeset = Company.changeset(%Company{}, %{"name" => new_name})
+
+  #   if changeset.valid? do
+  #     Repo.insert!(changeset)
+  #     IO.puts "New company added: #{new_name}!"
+  #   end
+  # end
 
   def index(conn, _params) do
     companies = Repo.all(Company)

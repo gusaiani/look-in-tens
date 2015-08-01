@@ -16,9 +16,13 @@ defmodule Dez.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [mod: {Dez, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :quantum]]
+    [
+      mod: {Dez, []},
+      applications: [
+        :phoenix, :phoenix_html, :cowboy, :logger,
+        :phoenix_ecto, :postgrex, :quantum, :httpoison
+      ]
+    ]
   end
 
   # Specifies which paths to compile per environment
@@ -29,12 +33,15 @@ defmodule Dez.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "~> 0.15"},
-     {:phoenix_ecto, "~> 0.8"},
-     {:postgrex, ">= 0.0.0"},
-     {:phoenix_html, "~> 1.4"},
-     {:phoenix_live_reload, "~> 0.5", only: :dev},
-     {:cowboy, "~> 1.0"},
-     {:quantum, ">= 1.3.0"}]
+    [
+      {:phoenix, "~> 0.15"},
+      {:phoenix_ecto, "~> 0.8"},
+      {:postgrex, ">= 0.0.0"},
+      {:phoenix_html, "~> 1.4"},
+      {:phoenix_live_reload, "~> 0.5", only: :dev},
+      {:cowboy, "~> 1.0"},
+      {:quantum, ">= 1.3.0"},
+      {:httpoison, "~> 0.7"}
+    ]
   end
 end

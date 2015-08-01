@@ -36,6 +36,14 @@
 <h3>Log</h3>
 <br>
 
+<h5>2015 08 01 11:01</h5>
+<p>
+  Decided on data source for US companies’ ticker index.
+  <br>
+  Bringing data into app with <a href="https://github.com/edgurgel/httpoison" target_"_blank">HTTPoison</a>.
+</p>
+<br>
+
 <h5>2015 07 31 08:55</h5>
 <p>
   Upgraded to Phoenix 0.15.

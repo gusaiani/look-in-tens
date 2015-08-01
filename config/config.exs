@@ -13,7 +13,7 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :quantum, cron: [
-  "* * * * *": {Dez.CompanyController, :scrape}
+  # "* * * * *": {Dez.CompanyController, :scrape}
 ]
 
 # Import environment specific config. This must remain at the bottom

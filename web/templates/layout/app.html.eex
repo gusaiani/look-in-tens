@@ -8,6 +8,7 @@
     <meta name="author" content="">
 
     <title>Look in Tens</title>
+    <link rel="icon" href="<%= static_path(@conn, "/images/favicon.png") %>" />
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 

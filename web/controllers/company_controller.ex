@@ -10,7 +10,7 @@ defmodule Dez.CompanyController do
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        IO.puts body
+        parse body
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
       {:error, %HTTPoison.Error{reason: reason}} ->
@@ -87,9 +87,12 @@ defmodule Dez.CompanyController do
     |> redirect(to: company_path(conn, :index))
   end
 
-  defp fake_name do
-    :crypto.strong_rand_bytes(4)
-    |> :base64.encode_to_string
-    |> to_string
+  defp parse(body) do
+    {:ok, table} = body
+      |> ExCsv.parse(headings: true)
+
+    IO.inspect table.headings
+    IO.inspect table.body
+
   end
 end

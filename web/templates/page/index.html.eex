@@ -36,12 +36,104 @@
 <h3>Log</h3>
 <br>
 
-<h5>2015 08 01 11:01</h5>
+<h5><a name="monitor">2015 08 02 07:43</a></h5>
+<p>
+  Set up a way to refresh Phoenix code any time I save a file in the editor and have it immediately available in a running iex session. <b>A live reloader for iex</b>, so to speak.
+</p>
+<p>
+  This is really handy when you’re exploring inside the Phoenix application, and don’t want to keep restarting iex or really do anything except use what you just wrote.
+</p>
+<p>
+  First, add a file to the root of your project, you can call it <code>.iex.exs</code> as in <a href="http://bit.ly/1ICIeKs" target="_blank">José Valim’s suggestion</a>, with the following code:
+</p>
+<pre>
+  defmodule R do
+    def reload! do
+      Mix.Task.reenable "compile.elixir"
+      Application.stop(Mix.Project.config[:app])
+      Mix.Task.run "compile.elixir"
+      Application.start(Mix.Project.config[:app], :permanent)
+    end
+  end
+</pre>
+<p>
+  By running <code>$ iex -S mix</code> now, you can manually refresh the app inside <samp>iex</samp> with <code>> R.reload!</code>.
+</p>
+<br>
+<p>
+  Now onto having something listen for changes in the filesystem. There is a <a href="https://hex.pm/" target="_blank">Hex</a> package for that: <a href="https://github.com/falood/exfswatch" target="_blank">ExFSWatch</a> (thanks to Keita Kobayashi for this tip).
+</p>
+<p>
+  Install ExFSWatch by adding it to your <code>mix.exs</code> dependencies:
+</p>
+<pre>
+  def deps do
+    [{:exfswatch, "~> 0.1.0"}]
+  end
+</pre>
+<p>and running <code>$ mix deps.get</code>.</p>
+<p>List ExFSWatch as your application dependency:</p>
+<pre>
+  def application do
+    [applications: [:exfswatch]]
+  end
+</pre>
+<p>I set up my filechange monitor in a new file I called <code>my_app/lib/my_app/monitor.ex</code>. Make sure to use your own application name instead of <code>my_app</code>. In it, I wrote:</p>
+<pre>
+  defmodule Monitor do
+    use ExFSWatch, dirs: ["../.."]
+
+    def callback(:stop) do
+      IO.puts "STOP"
+    end
+
+    def callback(file_path, events) do
+      R.reload!
+      IO.inspect {file_path, events}
+    end
+  end
+</pre>
+<p>
+  Finally, I went back to file <code>.iex.exs</code> and added <code>Monitor.start</code> in the last line. Here’s what it looked like in the end:
+</p>
+<pre>
+  defmodule R do
+    def reload! do
+      Mix.Task.reenable "compile.elixir"
+      Application.stop(Mix.Project.config[:app])
+      Mix.Task.run "compile.elixir"
+      Application.start(Mix.Project.config[:app], :permanent)
+    end
+  end
+
+  Monitor.start
+</pre>
+<p>That’s it. Next time you run an iex session in your Phoenix app, you can change project code on the fly, and just use it after merely saving the file in your text editor.</p>
+<p>
+  As always, if you know how to do what I just did but better, please let me know on <a target="_blank" href="https://www.twitter.com/gusaiani">Twitter</a> or <a href="mailto:gustavo@poe.ma">email</a> and tell me if you want to be linked to in my thanks.
+</p>
+<br>
+
+<h5>2015 08 01 20:52</h5>
 <p>
   Decided on data source for US companies’ ticker index.
   <br>
   Bringing data into app with <a href="https://github.com/edgurgel/httpoison" target_"_blank">HTTPoison</a>.
+  <br>
+  Learned a way to reload files from inside a running iex session:
 </p>
+<pre>
+  # add a file called .iex.exs in the root dir of your project
+  # add code below
+  defmodule R do
+    def reload! do
+      Mix.Task.reenable "compile.elixir"
+      Application.stop(Mix.Project.config[:app])
+      Mix.Task.run "compile.elixir"
+      Application.start(Mix.Project.config[:app], :permanent)
+    end
+  end
+</pre>
 <br>
 
 <h5>2015 07 31 08:55</h5>

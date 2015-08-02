@@ -20,7 +20,8 @@ defmodule Dez.Mixfile do
       mod: {Dez, []},
       applications: [
         :phoenix, :phoenix_html, :cowboy, :logger,
-        :phoenix_ecto, :postgrex, :quantum, :httpoison
+        :phoenix_ecto, :postgrex, :quantum, :httpoison,
+        :ex_csv, :exfswatch
       ]
     ]
   end
@@ -41,7 +42,9 @@ defmodule Dez.Mixfile do
       {:phoenix_live_reload, "~> 0.5", only: :dev},
       {:cowboy, "~> 1.0"},
       {:quantum, ">= 1.3.0"},
-      {:httpoison, "~> 0.7"}
+      {:httpoison, "~> 0.7"},
+      {:ex_csv, "~> 0.1.3"},
+      {:exfswatch, "~> 0.1.0"}
     ]
   end
 end

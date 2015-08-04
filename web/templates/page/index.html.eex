@@ -36,6 +36,12 @@
 <h3>Log</h3>
 <br>
 
+<h5>2015 08 04 08:32</h5>
+<p>
+  Saving companies to database, still without any treatment.
+</p>
+<br>
+
 <h5><a name="monitor">2015 08 02 07:43</a></h5>
 <p>
   Set up a way to refresh Phoenix code any time I save a file in the editor and have it immediately available in a running iex session. <b>A live reloader for iex</b>, so to speak.

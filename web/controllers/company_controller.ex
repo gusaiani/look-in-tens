@@ -92,7 +92,25 @@ defmodule Dez.CompanyController do
       |> ExCsv.parse(headings: true)
 
     IO.inspect table.headings
-    IO.inspect table.body
-
+    add table.body
   end
+
+  defp add([]) do
+    IO.puts "Finished"
+  end
+
+  defp add([head|tail]) do
+    company_name   = Enum.at(head, 1)
+    company_ticker = Enum.at(head, 0)
+
+    changeset = Company.changeset(%Company{}, %{"name" => company_name})
+
+    if changeset.valid? do
+      Repo.insert!(changeset)
+      IO.puts "New company added: #{company_name}!"
+    end
+
+    add tail
+  end
+
 end

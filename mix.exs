@@ -44,7 +44,7 @@ defmodule Dez.Mixfile do
       {:quantum, ">= 1.3.0"},
       {:httpoison, "~> 0.7"},
       {:ex_csv, "~> 0.1.3"},
-      {:exfswatch, "~> 0.1.0", only: :dev},
+      {:exfswatch, "~> 0.1.0"},
       {:phoenix_slim, "~> 0.4.0"},
       {:scrivener, "~> 0.11.0"}
     ]

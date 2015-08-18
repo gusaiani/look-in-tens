@@ -19,9 +19,9 @@ defmodule Dez.Mixfile do
     [
       mod: {Dez, []},
       applications: [
-        :phoenix, :phoenix_html, :cowboy, :logger,
-        :phoenix_ecto, :postgrex, :quantum, :httpoison,
-        :ex_csv, :exfswatch
+        :phoenix      , :phoenix_html , :cowboy       , :logger    ,
+        :phoenix_ecto , :postgrex     , :quantum      , :httpoison ,
+        :ex_csv       , :exfswatch    , :phoenix_slim , :scrivener
       ]
     ]
   end
@@ -35,16 +35,18 @@ defmodule Dez.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-      {:phoenix, "~> 0.15"},
-      {:phoenix_ecto, "~> 0.8"},
+      {:phoenix, "~> 0.16.1"},
+      {:phoenix_ecto, "~> 0.9"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 1.4"},
-      {:phoenix_live_reload, "~> 0.5", only: :dev},
+      {:phoenix_html, "~> 2.0"},
+      {:phoenix_live_reload, "~> 0.6", only: :dev},
       {:cowboy, "~> 1.0"},
       {:quantum, ">= 1.3.0"},
       {:httpoison, "~> 0.7"},
       {:ex_csv, "~> 0.1.3"},
-      {:exfswatch, "~> 0.1.0"}
+      {:exfswatch, "~> 0.1.0", only: :dev},
+      {:phoenix_slim, "~> 0.4.0"},
+      {:scrivener, "~> 0.11.0"}
     ]
   end
 end

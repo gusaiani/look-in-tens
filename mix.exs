@@ -35,11 +35,11 @@ defmodule Dez.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-      {:phoenix, "~> 0.16.1"},
+      {:phoenix, "~> 0.17.0"},
       {:phoenix_ecto, "~> 0.9"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.0"},
-      {:phoenix_live_reload, "~> 0.6", only: :dev},
+      {:phoenix_live_reload, "~> 1.0"},
       {:cowboy, "~> 1.0"},
       {:quantum, ">= 1.3.0"},
       {:httpoison, "~> 0.7"},

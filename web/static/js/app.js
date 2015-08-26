@@ -11,3 +11,11 @@ let App = {
 }
 
 export default App
+
+var HelloWorld = React.createClass({
+  render() {
+    return <h1>Habemus React.js</h1>
+  }
+})
+
+React.render(<HelloWorld />, document.getElementById('app'))

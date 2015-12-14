@@ -35,18 +35,18 @@ defmodule Dez.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-      {:phoenix, "~> 1.0.2"},
+      {:phoenix, "~> 1.0.4"},
       {:phoenix_ecto, "~> 1.1"},
-      {:postgrex, ">= 0.0.0"},
+      {:postgrex, ">= 0.9.0"},
       {:phoenix_html, "~> 2.1"},
-      {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:cowboy, "~> 1.0"},
-      {:quantum, ">= 1.3.0"},
-      {:httpoison, "~> 0.7"},
-      {:ex_csv, ">= 0.1.3"},
+      {:phoenix_live_reload, "~> 1.0.1", only: :dev},
+      {:cowboy, "~> 1.0.4"},
+      {:quantum, ">= 1.6.1"},
+      {:httpoison, "~> 0.8"},
+      {:ex_csv, ">= 0.1.4"},
       {:exfswatch, ">= 0.1.0"},
       {:phoenix_slim, ">= 0.4.0"},
-      {:scrivener, ">= 0.11.0"}
+      {:scrivener, ">= 1.1.0"}
     ]
   end
 end

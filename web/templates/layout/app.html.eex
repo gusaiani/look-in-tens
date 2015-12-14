@@ -24,9 +24,6 @@
       <%= @inner %>
 
     </div>
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-
-    <script>require("web/static/js/app")</script>
-
+    <script src="<%= static_path(@conn, "/js/script.js") %>"></script>
   </body>
 </html>

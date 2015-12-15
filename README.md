@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/1Poema/look-in-tens.svg?branch=master)](https://travis-ci.org/1Poema/look-in-tens)
+
 # Look in Tens
 
 By typing a public company’s name or stock ticker in a search box, instantaneously get its [PE10](http://www.investopedia.com/terms/p/pe10ratio.asp).

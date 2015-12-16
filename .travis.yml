@@ -7,10 +7,3 @@ before_script:
   - mix deps.get --only test
 script:
   - mix test
-deploy:
-  provider: heroku
-  api_key:
-    secure: bgM1ynsAqrpgL3APkbm/XrpQFPzPOz4Yas8v15aSE/zZLHutYH8M2FwgA3ymb5/jAkE7SmGpLKHCQ+DeyTCcB4b9kNG0GGcV1e9bw+pXEyBG38i0lwlP6SSLGDHuzGaabSPXkjkXB3UKiAq/OI7/m6AmcPJoAg2XP4qVZMT3yeWZasNnXZLIqZy+dCyUKzP8i/dviGnzYvEapXefDBaqfw7XCwQa0OByFI7nJSKjBd9gl9N8aMS21eRy0m+Xy/67E0V3u97PBkiFOLurmm9Qkgvkhv+NBY9D/4sGyhQghPY0DpU81Ox7tMTrGEvVv9c0M+KC9Dw0tnZ+L5hvgqfLkwgk4rIe+zj4aCXdPQzZvobq4HF9gbqu3xsGvFR1i2XIneYCK/LWCxlfVl6OMjkoEDHeq8KxjK+r7PEBgw7uk/kLKde2lWKghuHeSr9Outxg2PGKdXBl1tV625B6D/IwFED2yBtnVZjt1VFHdyGGlZ0wg3E/wgO3Cd8JYnv8y6ADZ5fbimgk/ISnywwf4S+rp2QBUmyQDqX1E0afyXmnL1Owx48URalolLJ4fJGK78CL6HNemeQVVpxJUX/bhDWKPhP0ytc4CU10T5BUNp6nZ5lOb29deuo5PSkLHKsHsvGMKvCaI3SjSvCwGdezzyG7zfh2z2R52Gonca58fULgBcQ=
-  app: lookintens
-  on:
-    repo: 1Poema/look-in-tens

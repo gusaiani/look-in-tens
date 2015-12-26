@@ -100,14 +100,14 @@ defmodule Dez.CompanyController do
   end
 
   defp add([head|tail]) do
-    company_name   = Enum.at(head, 1)
-    company_ticker = Enum.at(head, 0)
+    name   = Enum.at(head, 1)
+    ticker = Enum.at(head, 0)
 
-    changeset = Company.changeset(%Company{}, %{"name" => company_name})
+    changeset = Company.changeset(%Company{}, %{"name" => name, "ticker" => ticker})
 
     if changeset.valid? do
       Repo.insert!(changeset)
-      IO.puts "New company added: #{company_name}!"
+      IO.puts "New company added: #{name}!"
     end
 
     add tail

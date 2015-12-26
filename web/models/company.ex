@@ -3,6 +3,8 @@ defmodule Dez.Company do
 
   schema "companies" do
     field :name, :string
+    field :ticker, :string
+    field :pe, :float
 
     timestamps
   end

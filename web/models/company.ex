@@ -3,12 +3,14 @@ defmodule Dez.Company do
 
   schema "companies" do
     field :name, :string
+    field :ticker, :string
+    field :pe, :float
 
     timestamps
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w()
+  @optional_fields ~w(ticker pe)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

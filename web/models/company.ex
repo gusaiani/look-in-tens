@@ -10,7 +10,7 @@ defmodule Dez.Company do
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w()
+  @optional_fields ~w(ticker pe)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

@@ -18,16 +18,6 @@ defmodule Dez.CompanyController do
     end
   end
 
-  # def scrape do
-  #   new_name  = fake_name()
-  #   changeset = Company.changeset(%Company{}, %{"name" => new_name})
-
-  #   if changeset.valid? do
-  #     Repo.insert!(changeset)
-  #     IO.puts "New company added: #{new_name}!"
-  #   end
-  # end
-
   def index(conn, _params) do
     companies = Repo.all(Company)
     render(conn, "index.html", companies: companies)
@@ -102,8 +92,9 @@ defmodule Dez.CompanyController do
   defp add([head|tail]) do
     name   = Enum.at(head, 1)
     ticker = Enum.at(head, 0)
+    pe = Float.floor(:random.uniform * 20, 2)
 
-    changeset = Company.changeset(%Company{}, %{"name" => name, "ticker" => ticker})
+    changeset = Company.changeset(%Company{}, %{"name" => name, "ticker" => ticker, "pe" => pe})
 
     if changeset.valid? do
       Repo.insert!(changeset)

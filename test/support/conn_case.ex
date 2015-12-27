@@ -20,12 +20,10 @@ defmodule Dez.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
 
-      # Alias the data repository and import query/model functions
       alias Dez.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 2]
 
-      # Import URL helpers from the router
       import Dez.Router.Helpers
 
       # The default endpoint for testing
@@ -38,6 +36,6 @@ defmodule Dez.ConnCase do
       Ecto.Adapters.SQL.restart_test_transaction(Dez.Repo, [])
     end
 
-    :ok
+    {:ok, conn: Phoenix.ConnTest.conn()}
   end
 end

@@ -28,7 +28,6 @@ Now you can visit `localhost:4000` from your browser.
 ### Seed
 
 1. Run `iex -S mix`
-2. Run `Dez.CompanyController.scrape`
-(this will be moved to a worker soon)
+2. Run `Scraper.scrape`
 
 Now you can visit `localhost:4000/companies` and see data in your browser.

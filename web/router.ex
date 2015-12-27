@@ -16,6 +16,11 @@ defmodule Dez.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/companies", CompanyController
+  end
+
+  scope "/api", Dez do
+    pipe_through :api
+
+    resources "companies", CompanyController, only: [:show]
   end
 end

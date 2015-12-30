@@ -1,10 +1,15 @@
+import 'babel-core/polyfill'
 import React, {Component, PropTypes} from 'react'
 import {render} from 'react-dom'
+import { Provider } from 'react-redux'
+import configureStore from './store/configureStore'
+import App from './containers/App'
 
-class HelloWorld extends Component {
-  render() {
-    return <h1>Habemus React.js</h1>
-  }
-}
+const store = configureStore()
 
-render(<HelloWorld />, document.getElementById('app'))
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('app')
+)

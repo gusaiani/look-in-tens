@@ -12,15 +12,16 @@ defmodule Dez.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", Dez do
-    pipe_through :browser
-
-    get "/", PageController, :index
-  end
-
   scope "/api", Dez do
     pipe_through :api
 
     resources "companies", CompanyController, only: [:show]
+  end
+
+  scope "/", Dez do
+    pipe_through :browser
+
+    get "/about", PageController, :about
+    get "*path", PageController, :index
   end
 end

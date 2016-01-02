@@ -8,13 +8,9 @@ erl_crash.dump
 
 # Static artifacts
 /node_modules
-/bower_components
-
-# Since we are building assets from web/static,
-# we ignore priv/static. You may want to comment
-# this depending on your deployment strategy.
-# /priv/static/
 **/*.map
+/priv/static/js/script.js
+/priv/static/css/style.css
 
 # The config/prod.secret.exs file by default contains sensitive
 # data and you should not commit it into version control.

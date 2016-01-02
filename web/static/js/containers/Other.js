@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-class Companies extends Component {
+class Other extends Component {
   render() {
-    return <h1>We’ve got companies’ view</h1>
+    return <h1>Other container</h1>
   }
 }
 
@@ -11,4 +11,4 @@ function mapStateToProps(state) {
   return {}
 }
 
-export default connect(mapStateToProps)(Companies)
+export default connect(mapStateToProps)(Other)

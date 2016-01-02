@@ -24,8 +24,12 @@ var config = module.exports = {
     loaders: [
       {
         test: /\.js$/,
+        loader: "babel",
         exclude: /node_modules/,
-        loader: "babel"
+        query: {
+            cacheDirectory: true,
+            presets: ['es2015', 'react']
+        }
       }, {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract("style", "css!sass")

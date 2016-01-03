@@ -13,7 +13,7 @@ function web(dest) { return join("web/static/" + dest); }
 var config = module.exports = {
   devtool: "source-map",
   entry: [
-    web("css/app.scss"),
+    web("css/style.styl"),
     web("js/app.js")
   ],
   output: {
@@ -31,9 +31,13 @@ var config = module.exports = {
             presets: ['es2015', 'stage-0', 'react']
         }
       }, {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("style", "css!sass")
+        test: /\.styl$/,
+        loader: ExtractTextPlugin.extract("style", "css-loader!stylus-loader?paths=node_modules/bootstrap-stylus/stylus/")
       }
+      // , {
+        // test: /\.scss$/,
+        // loader: ExtractTextPlugin.extract("style", "css!sass")
+      // }
     ]
   },
   plugins: [

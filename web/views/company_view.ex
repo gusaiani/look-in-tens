@@ -5,10 +5,14 @@ defmodule Dez.CompanyView do
     %{company: render_one(company, Dez.CompanyView, "company.json")}
   end
 
+  def render("search.json", %{companies: companies}) do
+    %{data: render_many(companies, Dez.CompanyView, "company.json")}
+  end
+
   def render("company.json", %{company: company}) do
-  %{id: company.id,
-    name: company.name,
-    ticker: company.ticker,
-    pe: company.pe}
-end
+    %{id: company.id,
+      name: company.name,
+      ticker: company.ticker,
+      pe: company.pe}
+  end
 end

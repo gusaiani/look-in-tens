@@ -2,7 +2,7 @@ import { UPDATE_INPUT_VALUE, UPDATE_FOCUSED_ITEM } from '../constants/actionType
 
 export function searchCompany(queryStr) {
   return (dispatch) => {
-    console.log('Nesta bosta', queryStr)
+    console.log(queryStr)
   }
 }
 

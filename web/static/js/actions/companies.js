@@ -4,7 +4,7 @@ import { API_ROOT } from '../constants/api'
 export function searchCompany(queryStr) {
   return (dispatch) => {
     console.log(queryStr)
-    return fetch(API_ROOT + 'companies/1')
+    return fetch(API_ROOT + 'companies/search/' + queryStr)
       .then(response => response.json())
       .then(json => {
         // debugger

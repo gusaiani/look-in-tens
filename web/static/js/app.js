@@ -1,21 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
 import { createHistory } from 'history'
-import { syncReduxAndRouter, routeReducer } from 'redux-simple-router'
-import reducers from './reducers/index'
+import { syncReduxAndRouter } from 'redux-simple-router'
+import thunk from 'redux-thunk'
+
+import configureStore from './store/configureStore'
+
+import rootReducer from './reducers/index'
 
 import Main from './containers/Main'
 import Companies from './containers/Companies'
 import Other from './containers/Other'
 
-const reducer = combineReducers(Object.assign({}, reducers, {
-  routing: routeReducer
-}))
-const store = createStore(reducer)
 const history = createHistory()
+const store = configureStore(rootReducer)
 
 syncReduxAndRouter(history, store)
 

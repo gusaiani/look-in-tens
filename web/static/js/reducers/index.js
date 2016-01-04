@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
-import companies from './companies'
+import { companies } from './companies'
+import { routeReducer } from 'redux-simple-router'
 
 const rootReducer = combineReducers({
-  companies
+  companies,
+  routing: routeReducer
 })
 
 export default rootReducer

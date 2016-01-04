@@ -1,13 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import { reduxReactRouter } from 'redux-router'
 import createHistory from 'history/lib/createBrowserHistory'
-import routes from '../routes'
-import thunkMiddleware from 'redux-thunk'
-import rootReducer from '../reducers/index'
+import thunk from 'redux-thunk'
 
 const createStoreWithMiddleware = compose(
-  applyMiddleware(thunkMiddleware),
-  reduxReactRouter({ routes, createHistory }),
+  applyMiddleware(thunk),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 )(createStore)
 
@@ -20,8 +17,8 @@ const addReducerHotReloader = (store) => {
   return store
 }
 
-export default function configureStore(initialState) {
-  let store = createStoreWithMiddleware(rootReducer, initialState)
+export default function configureStore(reducer) {
+  let store = createStoreWithMiddleware(reducer)
 
   if (module.hot) {
     store = addReducerHotReloader(store)

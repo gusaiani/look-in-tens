@@ -16,6 +16,7 @@ defmodule Dez.Router do
     pipe_through :api
 
     resources "companies", CompanyController, only: [:show]
+    get "companies/search/:query_str", CompanyController, :search
   end
 
   scope "/", Dez do

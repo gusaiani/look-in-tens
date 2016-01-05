@@ -6,7 +6,7 @@ defmodule Dez.CompanyView do
   end
 
   def render("search.json", %{companies: companies}) do
-    %{data: render_many(companies, Dez.CompanyView, "company.json")}
+    %{companies: render_many(companies, Dez.CompanyView, "company.json")}
   end
 
   def render("company.json", %{company: company}) do

@@ -30,4 +30,7 @@ Now you can visit `localhost:4000` from your browser.
 1. Run `iex -S mix`
 2. Run `Scraper.scrape`
 
-Now you can hit a json endpoint such as `localhost:4000/api/companies/1` and see data.
+Now you can hit json endpoints such as:
+
+* `localhost:4000/api/companies/1` or
+* `localhost:4000/api/companies/search/#{your_query_string}`

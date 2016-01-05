@@ -39,14 +39,15 @@ defmodule Dez.Mixfile do
       {:phoenix_ecto, "~> 2.0"},
       {:postgrex, ">= 0.10.0"},
       {:phoenix_html, "~> 2.3"},
-      {:phoenix_live_reload, "~> 1.0.1", only: :dev},
       {:cowboy, "~> 1.0.4"},
       {:quantum, ">= 1.6.1"},
       {:httpoison, "~> 0.8"},
       {:ex_csv, ">= 0.1.4"},
       {:exfswatch, ">= 0.1.0"},
       {:phoenix_slim, ">= 0.4.0"},
-      {:scrivener, ">= 1.1.0"}
+      {:scrivener, ">= 1.1.0"},
+      {:phoenix_live_reload, "~> 1.0.1", only: :dev},
+      {:apex, "~> 0.3.2", only: :dev}
     ]
   end
 end

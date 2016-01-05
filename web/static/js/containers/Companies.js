@@ -47,7 +47,12 @@ class Companies extends Component {
 }
 
 function mapStateToProps(state) {
-  return {}
+  const {companies} = state
+  const {items} = companies
+
+  return {
+    companies
+  }
 }
 
 function mapDispatchToProps(dispatch) {

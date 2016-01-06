@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import { companies } from './companies'
 import { routeReducer } from 'redux-simple-router'
+import companies from './companies'
 
 const rootReducer = combineReducers({
   companies,

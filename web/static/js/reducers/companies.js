@@ -1,8 +1,31 @@
-import { UPDATE_INPUT_VALUE, UPDATE_FOCUSED_ITEM } from '../constants/actionTypes';
+import * as types from '../constants/actionTypes';
+
+const initialState = {
+  isFetching: false,
+  items: []
+}
 
 export default function companies (state = initialState, action) {
   switch (action.type) {
-    case UPDATE_INPUT_VALUE:
+    case types.COMPANY_SEARCH_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        error: null
+      })
+
+    case types.COMPANY_SEARCH_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        items: action.items.companies
+      })
+
+    case types.COMPANY_SEARCH_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        error: true
+      })
+
+    case types.UPDATE_INPUT_VALUE:
       return {
         ...state,
         [action.exampleNumber]: {
@@ -11,7 +34,7 @@ export default function companies (state = initialState, action) {
         }
       }
 
-    case UPDATE_FOCUSED_ITEM:
+    case types.UPDATE_FOCUSED_ITEM:
       return {
         ...state,
         [action.exampleNumber]: {

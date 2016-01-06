@@ -9,13 +9,20 @@ export default function companies (state = initialState, action) {
   switch (action.type) {
     case types.COMPANY_SEARCH_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true
+        isFetching: true,
+        error: null
       })
 
     case types.COMPANY_SEARCH_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         items: action.items.companies
+      })
+
+    case types.COMPANY_SEARCH_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        error: true
       })
 
     case types.UPDATE_INPUT_VALUE:

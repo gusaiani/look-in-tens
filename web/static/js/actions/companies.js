@@ -16,7 +16,7 @@ export function searchCompany(queryStr) {
         dispatch(receiveSearchCompanies(normalized.entities))
       })
       .catch(error => {
-        // dispatch(handleLoginFailure())
+        dispatch(failSearchCompanies())
       })
   }
 }
@@ -32,6 +32,12 @@ function receiveSearchCompanies(items) {
     type: types.COMPANY_SEARCH_SUCCESS,
     items
   }
+}
+
+function failSearchCompanies() {
+    return {
+      type: types.COMPANY_SEARCH_FAILURE
+    }
 }
 
 export function updateInputValue(exampleNumber, value) {

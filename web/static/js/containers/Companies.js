@@ -1,24 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import Autowhatever from 'react-autowhatever'
+import AutoSuggest from 'react-autowhatever'
+import values from 'lodash/object/values'
+
 import { searchCompany, updateInputValue, updateFocusedItem } from '../actions/companies'
 
-
-const autowhateverId = '0'
-
-const items = [{
-  text: 'Apple'
-}, {
-  text: 'Banana'
-}, {
-  text: 'Cherry'
-}, {
-  text: 'Grapefruit'
-}, {
-  text: 'Lemon'
-}]
-
-// const items = []
+const AutoSuggestId = '0'
 
 class Companies extends Component {
   renderItem(item) {
@@ -28,15 +15,15 @@ class Companies extends Component {
   }
 
   render() {
-    const { value, focusedSectionIndex, focusedItemIndex, onChange, onKeyDown } = this.props;
+    const { value, focusedSectionIndex, focusedItemIndex, onChange, onKeyDown, items } = this.props
     const inputProps = { value, onChange, onKeyDown }
 
     return (
       <div>
-        <h1>We’ve got companies’ view</h1>
-        <Autowhatever
-          id={autowhateverId}
-          items={items}
+        <h1>Companies</h1>
+        <AutoSuggest
+          id={AutoSuggestId}
+          items={buildAutoSuggestItems(items)}
           renderItem={this.renderItem}
           inputProps={inputProps}
           focusedSectionIndex={focusedSectionIndex}
@@ -46,14 +33,25 @@ class Companies extends Component {
   }
 }
 
+function buildAutoSuggestItems(items) {
+  return values(items).map(item => {
+    return {text: `${item.ticker} · ${item.name}`}
+  })
+}
+
 function mapStateToProps(state) {
-  return {}
+  const {companies} = state
+  const {items} = companies
+
+  return {
+    items
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     onChange: (event) => {
-      // dispatch(updateInputValue(autowhateverId, event.target.value))
+      // dispatch(updateInputValue(AutoSuggestId, event.target.value))
       dispatch(searchCompany(event.target.value))
     },
 

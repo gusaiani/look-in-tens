@@ -32,7 +32,7 @@ defmodule Dez.CompanyControllerTest do
     query_str = "some"
     changeset = Company.changeset(%Company{}, @valid_attrs)
     company = Repo.insert! changeset
-    
+
     conn = get conn, company_path(conn, :search, query_str)
 
     assert json_response(conn, 200)["companies"] == [%{
@@ -41,4 +41,5 @@ defmodule Dez.CompanyControllerTest do
       "ticker" => company.ticker,
       "pe" => company.pe}]
   end
+
 end

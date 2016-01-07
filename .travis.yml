@@ -3,7 +3,13 @@ elixir: 1.2.0
 otp_release:
   - 18.0
 sudo: false
+before_install:
+  - . $HOME/.nvm/nvm.sh
+  - nvm install stable
+  - nvm use stable
+  - npm install
 before_script:
   - mix deps.get --only test
 script:
   - mix test
+  - npm test

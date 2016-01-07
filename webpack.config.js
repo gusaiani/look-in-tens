@@ -1,5 +1,8 @@
 "use strict";
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+
 var path = require("path");
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin"),
@@ -34,14 +37,14 @@ var config = module.exports = {
         test: /\.styl$/,
         loader: ExtractTextPlugin.extract("style", "css-loader!stylus-loader?paths=node_modules/bootstrap-stylus/stylus/")
       }
-      // , {
-        // test: /\.scss$/,
-        // loader: ExtractTextPlugin.extract("style", "css!sass")
-      // }
     ]
   },
   plugins: [
-    new ExtractTextPlugin("css/style.css")
+    new ExtractTextPlugin("css/style.css"),
+    new webpack.ProvidePlugin({
+      'React': 'react',
+      'ReactDOM': 'react-dom'
+    })
   ]
 };
 

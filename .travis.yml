@@ -11,4 +11,5 @@ before_install:
 before_script:
   - mix deps.get --only test
 script:
-  - mix verify
+  - mix test
+  - npm test

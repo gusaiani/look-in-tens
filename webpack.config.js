@@ -1,7 +1,5 @@
 "use strict";
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-
 var path = require("path");
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin"),
@@ -15,7 +13,7 @@ function web(dest) { return join("web/static/" + dest); }
 var config = module.exports = {
   devtool: "source-map",
   entry: [
-    web("css/style.styl"),
+    web("css/app.scss"),
     web("js/app.js")
   ],
   output: {
@@ -26,30 +24,22 @@ var config = module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loader: "babel",
         exclude: /node_modules/,
-        query: {
-            cacheDirectory: true,
-            presets: ['es2015', 'stage-0', 'react']
-        }
+        loader: "babel"
       }, {
-        test: /\.styl$/,
-        loader: ExtractTextPlugin.extract("style", "css-loader!stylus-loader?paths=node_modules/bootstrap-stylus/stylus/")
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract("style", "css!sass")
       }
     ]
   },
   plugins: [
-    new ExtractTextPlugin("css/style.css"),
-    new webpack.ProvidePlugin({
-      'React': 'react',
-      'ReactDOM': 'react-dom'
-    })
+    new ExtractTextPlugin("css/style.css")
   ]
 };
 
-// if (process.env.NODE_ENV === "production") {
-//   config.plugins.push(
-//     new webpack.optimize.DedupePlugin(),
-//     new webpack.optimize.UglifyJsPlugin({ minimize: true })
-//   );
-// }
+if (process.env.NODE_ENV === "production") {
+  config.plugins.push(
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({ minimize: true })
+  );
+}

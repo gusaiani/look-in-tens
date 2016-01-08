@@ -21,7 +21,7 @@ defmodule Dez.Mixfile do
       applications: [
         :phoenix      , :phoenix_html , :cowboy       , :logger    ,
         :phoenix_ecto , :postgrex     , :quantum      , :httpoison ,
-        :ex_csv       , :exfswatch    , :phoenix_slim , :scrivener
+        :ex_csv       , :phoenix_slim , :scrivener
       ]
     ]
   end
@@ -43,7 +43,6 @@ defmodule Dez.Mixfile do
       {:quantum, ">= 1.6.1"},
       {:httpoison, "~> 0.8"},
       {:ex_csv, ">= 0.1.4"},
-      {:exfswatch, ">= 0.1.1"},
       {:phoenix_slim, ">= 0.4.0"},
       {:scrivener, ">= 1.1.0"},
       {:phoenix_live_reload, "~> 1.0.2", only: :dev},

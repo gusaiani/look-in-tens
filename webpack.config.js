@@ -1,5 +1,7 @@
 "use strict";
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 var path = require("path");
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin"),
@@ -13,27 +15,35 @@ function web(dest) { return join("web/static/" + dest); }
 var config = module.exports = {
   devtool: "source-map",
   entry: [
-    web("css/app.scss"),
+    web("css/style.styl"),
     web("js/app.js")
   ],
   output: {
     path: join("priv/static"),
-    filename: "js/script.js"
+    filename: "js/app.js"
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
+        loader: "babel",
         exclude: /node_modules/,
-        loader: "babel"
+        query: {
+            cacheDirectory: true,
+            presets: ['es2015', 'stage-0', 'react']
+        }
       }, {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("style", "css!sass")
+        test: /\.styl$/,
+        loader: ExtractTextPlugin.extract("style", "css-loader!stylus-loader?paths=node_modules/bootstrap-stylus/stylus/")
       }
     ]
   },
   plugins: [
-    new ExtractTextPlugin("css/style.css")
+    new ExtractTextPlugin("css/style.css"),
+    new webpack.ProvidePlugin({
+      'React': 'react',
+      'ReactDOM': 'react-dom'
+    })
   ]
 };
 

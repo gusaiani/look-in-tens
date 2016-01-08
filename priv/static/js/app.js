@@ -30670,12 +30670,12 @@
 /* 368 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var API_ROOT = exports.API_ROOT = 'http://localhost:4000/api/';
+	var API_ROOT = exports.API_ROOT = "http://" + window.location.host + "/api/";
 
 /***/ },
 /* 369 */

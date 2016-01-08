@@ -10,6 +10,7 @@ erl_crash.dump
 # Static artifacts
 /node_modules
 **/*.map
+/priv/static
 /priv/static/js/script.js
 /priv/static/css/style.css
 

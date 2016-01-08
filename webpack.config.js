@@ -2,7 +2,6 @@
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-
 var path = require("path");
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin"),
@@ -48,9 +47,9 @@ var config = module.exports = {
   ]
 };
 
-if (process.env.NODE_ENV === "production") {
-  config.plugins.push(
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({ minimize: true })
-  );
-}
+// if (process.env.NODE_ENV === "production") {
+//   config.plugins.push(
+//     new webpack.optimize.DedupePlugin(),
+//     new webpack.optimize.UglifyJsPlugin({ minimize: true })
+//   );
+// }

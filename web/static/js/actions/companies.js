@@ -21,10 +21,10 @@ export function searchCompany(queryStr) {
   }
 }
 
-function requestSearchCompanies() {
-    return {
-      type: types.COMPANY_SEARCH_REQUEST
-    }
+export function requestSearchCompanies() {
+  return {
+    type: types.COMPANY_SEARCH_REQUEST
+  }
 }
 
 function receiveSearchCompanies(items) {

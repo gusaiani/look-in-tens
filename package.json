@@ -6,7 +6,8 @@
     "npm": "^3.3.12"
   },
   "scripts": {
-    "test": "node ./node_modules/karma/bin/karma start ./karma.js"
+    "test": "node ./node_modules/karma/bin/karma start ./karma.js",
+    "test-all": "mix test; npm test"
   },
   "dependencies": {
     "autoprefixer-loader": "^3.1.0",

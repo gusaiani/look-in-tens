@@ -4,7 +4,7 @@ import {companySchema} from '../constants/schemas'
 import * as types from '../constants/actionTypes';
 import { API_ROOT } from '../constants/api'
 
-export function searchCompany(queryStr) {
+export function searchCompanies(queryStr) {
   return (dispatch) => {
     if (!queryStr) return
 
@@ -27,6 +27,12 @@ export function requestSearchCompanies() {
   }
 }
 
+export function resetSearchCompanies() {
+  return {
+    type: types.COMPANY_SEARCH_RESET
+  }
+}
+
 function receiveSearchCompanies(items) {
   return {
     type: types.COMPANY_SEARCH_SUCCESS,
@@ -35,24 +41,7 @@ function receiveSearchCompanies(items) {
 }
 
 function failSearchCompanies() {
-    return {
-      type: types.COMPANY_SEARCH_FAILURE
-    }
-}
-
-export function updateInputValue(exampleNumber, value) {
   return {
-    type: types.UPDATE_INPUT_VALUE,
-    exampleNumber,
-    value
-  }
-}
-
-export function updateFocusedItem(exampleNumber, focusedSectionIndex, focusedItemIndex) {
-  return {
-    type: types.UPDATE_FOCUSED_ITEM,
-    exampleNumber,
-    focusedSectionIndex,
-    focusedItemIndex
+    type: types.COMPANY_SEARCH_FAILURE
   }
 }

@@ -15,8 +15,9 @@ class Companies extends Component {
   }
 
   render() {
-    const { value, focusedSectionIndex, focusedItemIndex, onChange, onKeyDown, items } = this.props
-    const inputProps = { value, onChange, onKeyDown }
+    const { value, focusedSectionIndex, focusedItemIndex, onBlur, onChange, onKeyDown, onMouseEnter, onMouseLeave, onMouseDown, items } = this.props
+    const inputProps = { value, onChange, onKeyDown, onBlur }
+    const itemProps = { onMouseEnter, onMouseLeave, onMouseDown };
 
     return (
       <div>
@@ -26,6 +27,7 @@ class Companies extends Component {
           items={buildAutoSuggestItems(items)}
           renderItem={this.renderItem}
           inputProps={inputProps}
+          itemProps={itemProps}
           focusedSectionIndex={focusedSectionIndex}
           focusedItemIndex={focusedItemIndex} />
       </div>
@@ -60,11 +62,38 @@ function mapDispatchToProps(dispatch) {
       dispatch(searchCompany(event.target.value))
     },
 
-    onKeyDown: (event, { newFocusedSectionIndex, newFocusedItemIndex }) => {
-      if (typeof newFocusedItemIndex !== 'undefined') {
-        event.preventDefault()
-        dispatch(updateFocusedItem(AutoSuggestId, newFocusedSectionIndex, newFocusedItemIndex))
+    onKeyDown: (event, { focusedSectionIndex, focusedItemIndex, newFocusedSectionIndex, newFocusedItemIndex }) => {
+      switch (event.key) {
+        case 'ArrowDown':
+        case 'ArrowUp':
+          event.preventDefault();
+          dispatch(updateFocusedItem(AutoSuggestId, newFocusedSectionIndex, newFocusedItemIndex));
+          break
+
+        case 'Enter':
+          console.log('Em Enter')
+          // dispatch(updateInputValue(AutoSuggestId, items[focusedSectionIndex].items[focusedItemIndex].text + ' selected'));
+          break
       }
+    },
+
+    onMouseEnter: (event, { sectionIndex, itemIndex }) => {
+      console.log('Em onMouseEnter')
+      // dispatch(updateFocusedItem(exampleId, sectionIndex, itemIndex));
+    },
+
+    onMouseLeave: () => {
+      console.log('Em onMouseLeave')
+      // dispatch(updateFocusedItem(exampleId, null, null));
+    },
+
+    onMouseDown: (event, { itemIndex }) => {
+      console.log('Em onMouseDown')
+      // dispatch(updateInputValue(exampleId, items[itemIndex].text + ' clicked'));
+    },
+
+    onBlur: () => {
+      console.log('Em onBlur')
     }
   }
 }

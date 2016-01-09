@@ -1,25 +1,23 @@
-.headerContainer
-  margin-bottom 30px
-
-.header
-  font-size 26px
-
-.subHeader
-  font-size 18px
-
-.examplesContainer
-  display flex
-  flex-wrap wrap
-
-.exampleContainer
-  margin 0 30px 30px 0
-
 fontSize = 16px
 borderColor = #aaa
 borderRadius = 4px
 
-.react-autowhatever__container
-  position relative
+.react-autowhatever
+  &__container
+    position relative
+  &__items-container
+    position relative
+    top -1px
+    width 280px
+    margin 0
+    padding 0
+    list-style-type none
+    border 1px solid borderColor
+    background-color #fff
+    font-size fontSize
+    border-bottom-left-radius borderRadius
+    border-bottom-right-radius borderRadius
+    z-index 2
 
 input
   width 240px
@@ -34,24 +32,12 @@ input
     border-bottom-left-radius: 0
     border-bottom-right-radius: 0
 
-.react-autowhatever__items-container
-  position relative
-  top -1px
-  width 280px
-  margin 0
-  padding 0
-  list-style-type none
-  border 1px solid borderColor
-  background-color #fff
-  font-size fontSize
-  border-bottom-left-radius borderRadius
-  border-bottom-right-radius borderRadius
-  z-index 2
 
 .react-autowhatever__item
   cursor pointer
   padding 10px 20px
-  &:hover
+  &:hover,
+  &--focused
     background-color #ddd
 
 .section-title

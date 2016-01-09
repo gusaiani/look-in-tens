@@ -1,10 +1,17 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import AutoSuggest from 'react-autowhatever'
-import values from 'lodash/object/values'
 
+import {buildAutoSuggestItems} from '../utils/companies'
 import {searchCompanies, resetSearchCompanies} from '../actions/companies'
-import {updateInputValue, updateFocusedItem} from '../actions/autowhatever'
+import {
+  onChange,
+  onKeyDown,
+  onMouseEnter,
+  onMouseLeave,
+  onMouseDown,
+  onBlur
+} from '../actions/autowhatever'
 
 const AutoSuggestId = 'companies'
 
@@ -35,15 +42,6 @@ class Companies extends Component {
   }
 }
 
-function buildAutoSuggestItems(items) {
-  return values(items).map(item => {
-    return {
-      id: item.id,
-      text: `${item.ticker} · ${item.name}`
-    }
-  })
-}
-
 function mapStateToProps(state) {
   const {companies, autowhatever} = state
   const {items} = companies
@@ -56,45 +54,11 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onChange: (event) => {
-      dispatch(updateInputValue(AutoSuggestId, event.target.value))
-      dispatch(searchCompanies(event.target.value))
-    },
-
-    onKeyDown: (event, { focusedItemIndex, newFocusedItemIndex }) => {
-      switch (event.key) {
-        case 'ArrowDown':
-        case 'ArrowUp':
-          event.preventDefault();
-          dispatch(updateFocusedItem(AutoSuggestId, newFocusedItemIndex));
-          break;
-
-        case 'Enter':
-          console.log('Em Enter')
-          dispatch(updateInputValue(AutoSuggestId, items[focusedItemIndex].text + ' selected'));
-          break
-      }
-    },
-
-    onMouseEnter: (event, { itemIndex }) => {
-      dispatch(updateFocusedItem(AutoSuggestId, itemIndex));
-    },
-
-    onMouseLeave: () => {
-      dispatch(updateFocusedItem(AutoSuggestId, null));
-    },
-
-    onMouseDown: (event, { itemIndex }) => {
-      console.log('onMouseDown', items[itemIndex].text )
-      dispatch(updateInputValue(AutoSuggestId, items[itemIndex].text + ' clicked'));
-    },
-
-    onBlur: () => {
-      dispatch(resetSearchCompanies())
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Companies)
+export default connect(mapStateToProps, {
+  onChange,
+  onKeyDown,
+  onMouseEnter,
+  onMouseLeave,
+  onMouseDown,
+  onBlur,
+})(Companies)

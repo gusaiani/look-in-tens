@@ -2,7 +2,6 @@
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-
 var path = require("path");
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin"),
@@ -21,7 +20,7 @@ var config = module.exports = {
   ],
   output: {
     path: join("priv/static"),
-    filename: "js/script.js"
+    filename: "js/app.js"
   },
   module: {
     loaders: [

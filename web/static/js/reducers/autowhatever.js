@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes'
 
 const initialState = {
-  "0": {
+  "companies": {
     focusedSectionIndex: null,
     focusedItemIndex: null
   }

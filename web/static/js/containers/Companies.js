@@ -40,25 +40,30 @@ function buildAutoSuggestItems(items) {
 }
 
 function mapStateToProps(state) {
-  const {companies} = state
+  const {companies, autowhatever} = state
   const {items} = companies
 
+  console.log(autowhatever)
+
   return {
-    items
+    items,
+    value: autowhatever[AutoSuggestId].value,
+    focusedSectionIndex: autowhatever[AutoSuggestId].focusedSectionIndex,
+    focusedItemIndex: autowhatever[AutoSuggestId].focusedItemIndex
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     onChange: (event) => {
-      // dispatch(updateInputValue(AutoSuggestId, event.target.value))
+      dispatch(updateInputValue(AutoSuggestId, event.target.value))
       dispatch(searchCompany(event.target.value))
     },
 
     onKeyDown: (event, { newFocusedSectionIndex, newFocusedItemIndex }) => {
       if (typeof newFocusedItemIndex !== 'undefined') {
         event.preventDefault()
-        dispatch(updateFocusedItem(exampleId, newFocusedSectionIndex, newFocusedItemIndex))
+        dispatch(updateFocusedItem(AutoSuggestId, newFocusedSectionIndex, newFocusedItemIndex))
       }
     }
   }

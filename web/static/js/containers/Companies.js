@@ -13,6 +13,8 @@ import {
   onBlur
 } from '../actions/autowhatever'
 
+import Company from '../components/company'
+
 const AutoSuggestId = 'companies'
 
 class Companies extends Component {
@@ -23,9 +25,10 @@ class Companies extends Component {
   }
 
   render() {
-    const { value, focusedItemIndex, onBlur, onChange, onKeyDown, onMouseEnter, onMouseLeave, onMouseDown, items } = this.props
+    const { selectedCompany, value, focusedItemIndex, onBlur, onChange,
+            onKeyDown, onMouseEnter, onMouseLeave, onMouseDown, items } = this.props
     const inputProps = { value, onChange, onKeyDown, onBlur }
-    const itemProps = { onMouseEnter, onMouseLeave, onMouseDown };
+    const itemProps = { onMouseEnter, onMouseLeave, onMouseDown }
 
     return (
       <div>
@@ -37,6 +40,7 @@ class Companies extends Component {
           inputProps={inputProps}
           itemProps={itemProps}
           focusedItemIndex={focusedItemIndex} />
+        { selectedCompany && <Company company={selectedCompany}/>}
       </div>
     )
   }
@@ -44,12 +48,15 @@ class Companies extends Component {
 
 function mapStateToProps(state) {
   const {companies, autowhatever} = state
+  const selectedCompany = companies.selected
   const {value, focusedItemIndex} = autowhatever[AutoSuggestId]
+  const items = buildAutoSuggestItems(companies)
 
   return {
-    items: buildAutoSuggestItems(companies),
+    items,
     value,
-    focusedItemIndex
+    focusedItemIndex,
+    selectedCompany
   }
 }
 

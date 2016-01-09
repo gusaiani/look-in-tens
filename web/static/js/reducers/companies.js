@@ -31,6 +31,11 @@ export default function companies (state = initialState, action) {
         items: []
       })
 
+    case types.COMPANY_SHOW:
+      return Object.assign({}, state, {
+        selected: action.company
+      })
+
     default:
       return state
   }

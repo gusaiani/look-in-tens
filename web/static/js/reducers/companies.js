@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from '../constants/actionTypes'
 
 const initialState = {
   isFetching: false,
@@ -24,25 +24,6 @@ export default function companies (state = initialState, action) {
         isFetching: false,
         error: true
       })
-
-    case types.UPDATE_INPUT_VALUE:
-      return {
-        ...state,
-        [action.exampleNumber]: {
-          ...state[action.exampleNumber],
-          value: action.value
-        }
-      }
-
-    case types.UPDATE_FOCUSED_ITEM:
-      return {
-        ...state,
-        [action.exampleNumber]: {
-          ...state[action.exampleNumber],
-          focusedSectionIndex: action.focusedSectionIndex,
-          focusedItemIndex: action.focusedItemIndex
-        }
-      }
 
     default:
       return state

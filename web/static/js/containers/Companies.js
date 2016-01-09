@@ -1,11 +1,21 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
 import AutoSuggest from 'react-autowhatever'
-import values from 'lodash/object/values'
 
-import { searchCompany, updateInputValue, updateFocusedItem } from '../actions/companies'
+import {buildAutoSuggestItems} from '../utils/companies'
+import {searchCompanies, resetSearchCompanies} from '../actions/companies'
+import {
+  onChange,
+  onKeyDown,
+  onMouseEnter,
+  onMouseLeave,
+  onMouseDown,
+  onBlur
+} from '../actions/autowhatever'
 
-const AutoSuggestId = '0'
+import Company from '../components/company'
+
+const AutoSuggestId = 'companies'
 
 class Companies extends Component {
   renderItem(item) {
@@ -15,58 +25,46 @@ class Companies extends Component {
   }
 
   render() {
-    const { value, focusedSectionIndex, focusedItemIndex, onChange, onKeyDown, items } = this.props
-    const inputProps = { value, onChange, onKeyDown }
+    const { selectedCompany, value, focusedItemIndex, onBlur, onChange,
+            onKeyDown, onMouseEnter, onMouseLeave, onMouseDown, items } = this.props
+    const inputProps = { value, onChange, onKeyDown, onBlur }
+    const itemProps = { onMouseEnter, onMouseLeave, onMouseDown }
 
     return (
       <div>
         <h1>Companies</h1>
         <AutoSuggest
           id={AutoSuggestId}
-          items={buildAutoSuggestItems(items)}
+          items={items}
           renderItem={this.renderItem}
           inputProps={inputProps}
-          focusedSectionIndex={focusedSectionIndex}
+          itemProps={itemProps}
           focusedItemIndex={focusedItemIndex} />
+        { selectedCompany && <Company company={selectedCompany}/>}
       </div>
     )
   }
 }
 
-function buildAutoSuggestItems(items) {
-  return values(items).map(item => {
-    return {text: `${item.ticker} · ${item.name}`}
-  })
-}
-
 function mapStateToProps(state) {
   const {companies, autowhatever} = state
-  const {items} = companies
-
-  console.log(autowhatever)
+  const selectedCompany = companies.selected
+  const {value, focusedItemIndex} = autowhatever[AutoSuggestId]
+  const items = buildAutoSuggestItems(companies)
 
   return {
     items,
-    value: autowhatever[AutoSuggestId].value,
-    focusedSectionIndex: autowhatever[AutoSuggestId].focusedSectionIndex,
-    focusedItemIndex: autowhatever[AutoSuggestId].focusedItemIndex
+    value,
+    focusedItemIndex,
+    selectedCompany
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onChange: (event) => {
-      dispatch(updateInputValue(AutoSuggestId, event.target.value))
-      dispatch(searchCompany(event.target.value))
-    },
-
-    onKeyDown: (event, { newFocusedSectionIndex, newFocusedItemIndex }) => {
-      if (typeof newFocusedItemIndex !== 'undefined') {
-        event.preventDefault()
-        dispatch(updateFocusedItem(AutoSuggestId, newFocusedSectionIndex, newFocusedItemIndex))
-      }
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Companies)
+export default connect(mapStateToProps, {
+  onChange,
+  onKeyDown,
+  onMouseEnter,
+  onMouseLeave,
+  onMouseDown,
+  onBlur,
+})(Companies)

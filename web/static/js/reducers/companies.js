@@ -25,6 +25,17 @@ export default function companies (state = initialState, action) {
         error: true
       })
 
+    case types.COMPANY_SEARCH_RESET:
+      return Object.assign({}, state, {
+        isFetching: false,
+        items: []
+      })
+
+    case types.COMPANY_SHOW:
+      return Object.assign({}, state, {
+        selected: action.company
+      })
+
     default:
       return state
   }

@@ -44,11 +44,10 @@ class Companies extends Component {
 
 function mapStateToProps(state) {
   const {companies, autowhatever} = state
-  const {items} = companies
   const {value, focusedItemIndex} = autowhatever[AutoSuggestId]
 
   return {
-    items: buildAutoSuggestItems(items),
+    items: buildAutoSuggestItems(companies),
     value,
     focusedItemIndex
   }

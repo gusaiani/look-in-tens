@@ -1,11 +1,12 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
 import AutoSuggest from 'react-autowhatever'
 import values from 'lodash/object/values'
 
-import { searchCompany, updateInputValue, updateFocusedItem } from '../actions/companies'
+import {searchCompanies, resetSearchCompanies} from '../actions/companies'
+import {updateInputValue, updateFocusedItem} from '../actions/autowhatever'
 
-const AutoSuggestId = '0'
+const AutoSuggestId = 'companies'
 
 class Companies extends Component {
   renderItem(item) {
@@ -15,7 +16,7 @@ class Companies extends Component {
   }
 
   render() {
-    const { value, focusedSectionIndex, focusedItemIndex, onBlur, onChange, onKeyDown, onMouseEnter, onMouseLeave, onMouseDown, items } = this.props
+    const { value, focusedItemIndex, onBlur, onChange, onKeyDown, onMouseEnter, onMouseLeave, onMouseDown, items } = this.props
     const inputProps = { value, onChange, onKeyDown, onBlur }
     const itemProps = { onMouseEnter, onMouseLeave, onMouseDown };
 
@@ -24,11 +25,10 @@ class Companies extends Component {
         <h1>Companies</h1>
         <AutoSuggest
           id={AutoSuggestId}
-          items={buildAutoSuggestItems(items)}
+          items={items}
           renderItem={this.renderItem}
           inputProps={inputProps}
           itemProps={itemProps}
-          focusedSectionIndex={focusedSectionIndex}
           focusedItemIndex={focusedItemIndex} />
       </div>
     )
@@ -37,21 +37,22 @@ class Companies extends Component {
 
 function buildAutoSuggestItems(items) {
   return values(items).map(item => {
-    return {text: `${item.ticker} · ${item.name}`}
+    return {
+      id: item.id,
+      text: `${item.ticker} · ${item.name}`
+    }
   })
 }
 
 function mapStateToProps(state) {
   const {companies, autowhatever} = state
   const {items} = companies
-
-  console.log(autowhatever)
+  const {value, focusedItemIndex} = autowhatever[AutoSuggestId]
 
   return {
-    items,
-    value: autowhatever[AutoSuggestId].value,
-    focusedSectionIndex: autowhatever[AutoSuggestId].focusedSectionIndex,
-    focusedItemIndex: autowhatever[AutoSuggestId].focusedItemIndex
+    items: buildAutoSuggestItems(items),
+    value,
+    focusedItemIndex
   }
 }
 
@@ -59,41 +60,39 @@ function mapDispatchToProps(dispatch) {
   return {
     onChange: (event) => {
       dispatch(updateInputValue(AutoSuggestId, event.target.value))
-      dispatch(searchCompany(event.target.value))
+      dispatch(searchCompanies(event.target.value))
     },
 
-    onKeyDown: (event, { focusedSectionIndex, focusedItemIndex, newFocusedSectionIndex, newFocusedItemIndex }) => {
+    onKeyDown: (event, { focusedItemIndex, newFocusedItemIndex }) => {
       switch (event.key) {
         case 'ArrowDown':
         case 'ArrowUp':
           event.preventDefault();
-          dispatch(updateFocusedItem(AutoSuggestId, newFocusedSectionIndex, newFocusedItemIndex));
-          break
+          dispatch(updateFocusedItem(AutoSuggestId, newFocusedItemIndex));
+          break;
 
         case 'Enter':
           console.log('Em Enter')
-          // dispatch(updateInputValue(AutoSuggestId, items[focusedSectionIndex].items[focusedItemIndex].text + ' selected'));
+          dispatch(updateInputValue(AutoSuggestId, items[focusedItemIndex].text + ' selected'));
           break
       }
     },
 
-    onMouseEnter: (event, { sectionIndex, itemIndex }) => {
-      console.log('Em onMouseEnter')
-      // dispatch(updateFocusedItem(exampleId, sectionIndex, itemIndex));
+    onMouseEnter: (event, { itemIndex }) => {
+      dispatch(updateFocusedItem(AutoSuggestId, itemIndex));
     },
 
     onMouseLeave: () => {
-      console.log('Em onMouseLeave')
-      // dispatch(updateFocusedItem(exampleId, null, null));
+      dispatch(updateFocusedItem(AutoSuggestId, null));
     },
 
     onMouseDown: (event, { itemIndex }) => {
-      console.log('Em onMouseDown')
-      // dispatch(updateInputValue(exampleId, items[itemIndex].text + ' clicked'));
+      console.log('onMouseDown', items[itemIndex].text )
+      dispatch(updateInputValue(AutoSuggestId, items[itemIndex].text + ' clicked'));
     },
 
     onBlur: () => {
-      console.log('Em onBlur')
+      dispatch(resetSearchCompanies())
     }
   }
 }

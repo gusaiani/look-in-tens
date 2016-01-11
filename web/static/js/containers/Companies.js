@@ -13,7 +13,7 @@ import {
   onBlur
 } from '../actions/autowhatever'
 
-import Company from '../components/company'
+import Company from '../components/Company'
 
 const AutoSuggestId = 'companies'
 

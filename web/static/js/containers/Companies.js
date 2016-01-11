@@ -25,9 +25,11 @@ class Companies extends Component {
   }
 
   render() {
+    const placeholder = 'Name or ticker to get PE10'
+
     const { selectedCompany, value, focusedItemIndex, onBlur, onChange,
             onKeyDown, onMouseEnter, onMouseLeave, onMouseDown, items } = this.props
-    const inputProps = { value, onChange, onKeyDown, onBlur }
+    const inputProps = { value, onChange, onKeyDown, onBlur, placeholder }
     const itemProps = { onMouseEnter, onMouseLeave, onMouseDown }
 
     return (

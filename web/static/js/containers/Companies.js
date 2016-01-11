@@ -20,7 +20,7 @@ const AutoSuggestId = 'companies'
 class Companies extends Component {
   renderItem(item) {
     return (
-      <span>{item.text}</span>
+      <span><b>{item.ticker}</b> · {item.name}</span>
     )
   }
 
@@ -32,7 +32,6 @@ class Companies extends Component {
 
     return (
       <div>
-        <h1>Companies</h1>
         <AutoSuggest
           id={AutoSuggestId}
           items={items}

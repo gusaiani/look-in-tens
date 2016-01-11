@@ -15,7 +15,7 @@
   <body>
     <div class="container" role="main">
       <div class="header">
-        <span class="logo">Look in Tenssyyy</span>
+        <span class="logo">Look in Tens</span>
       </div>
 
       <%= render @view_module, @view_template, assigns %>

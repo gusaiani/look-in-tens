@@ -4,7 +4,8 @@ export function buildAutoSuggestItems(companies) {
   return values(companies.items).map(item => {
     return {
       id: item.id,
-      text: `${item.ticker} · ${item.name}`
+      name: item.name,
+      ticker: item.ticker
     }
   })
 }

@@ -13,7 +13,6 @@ import rootReducer from './reducers/index'
 
 import Main from './containers/Main'
 import Companies from './containers/Companies'
-import Other from './containers/Other'
 
 const history = createHistory()
 const store = configureStore(rootReducer)
@@ -29,7 +28,6 @@ if (reactContainer) {
         <Route path="/" component={Main}>
           <IndexRoute component={Companies}/>
           <Route path="companies" component={Companies}/>
-          <Route path="other" component={Other}/>
         </Route>
       </Router>
     </Provider>,

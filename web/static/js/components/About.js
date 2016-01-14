@@ -30,6 +30,11 @@ class About extends Component {
 
         <h3>Log</h3>
         <br/>
+
+        <h5>2016 01 13 22:23</h5>
+        <p>Implemented design.</p>
+        <p>Moved all frontend markup to React.</p>
+
         <h5>2016 01 08 12:01</h5>
         <p>Suggestions based on search being returned</p>
         <p>Redux working</p>
@@ -180,7 +185,7 @@ class About extends Component {
           Learned how to generate a random string in Elixir.
           <br/>
           Learned how to store that random string as a new company name in companies#create.
-        `x`</p>
+        </p>
       </div>
     )
   }

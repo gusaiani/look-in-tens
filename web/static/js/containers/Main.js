@@ -1,7 +1,7 @@
-import React  from 'react'
+import React, {Component, PropTypes} from 'react'
 import Header from '../components/Header.js'
 
-export default React.createClass({
+class Main extends Component {
   render() {
     return (
       <div className="main">
@@ -12,4 +12,6 @@ export default React.createClass({
       </div>
     )
   }
-})
+}
+
+export default Main

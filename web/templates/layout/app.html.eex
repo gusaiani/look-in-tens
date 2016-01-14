@@ -14,17 +14,7 @@
 
   <body>
     <div class="container" role="main">
-      <div class="header">
-        <span class="logo">
-          <%= link("Look in Tens", to: "/") %>
-        </span>
-        <nav>
-          <%= link("About", to: "/about") %>
-        </nav>
-      </div>
-
       <%= render @view_module, @view_template, assigns %>
-
     </div>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>

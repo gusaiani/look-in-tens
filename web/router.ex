@@ -22,7 +22,6 @@ defmodule Dez.Router do
   scope "/", Dez do
     pipe_through :browser
 
-    get "/about", PageController, :about
     get "*path", PageController, :index
   end
 end

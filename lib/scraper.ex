@@ -3,8 +3,19 @@ defmodule Scraper do
   alias Dez.Repo
 
   def scrape do
-    url = "https://raw.githubusercontent.com/matthewfieger/bloomberg_stock_data/master/tickers/nyse.csv"
+    scrape_stock_exchange(exchanges)
+  end
 
+  defp scrape_stock_exchange([head|tail]) do
+    get_companies_from_stock_exchange(head)
+    scrape_stock_exchange(tail)
+  end
+
+  defp scrape_stock_exchange([]) do
+    IO.puts "Exchanges scraped."
+  end
+
+  defp get_companies_from_stock_exchange({exchange, url}) do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         parse body
@@ -24,7 +35,7 @@ defmodule Scraper do
   end
 
   defp add([]) do
-    IO.puts "Finished"
+    IO.puts "Stock exchange scrape finished."
   end
 
   defp add([head|tail]) do
@@ -40,5 +51,11 @@ defmodule Scraper do
     end
 
     add tail
+  end
+
+  defp exchanges do
+    [{:NASDAQ, "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&render=download"},
+     {:AMEX, "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=AMEX&render=download"},
+     {:NYSE, "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NYSE&render=download"}]
   end
 end

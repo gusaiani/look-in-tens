@@ -39,11 +39,15 @@ defmodule Scraper do
   end
 
   defp add([head|tail]) do
-    name   = Enum.at(head, 1)
+    name = Enum.at(head, 1)
     ticker = Enum.at(head, 0)
     pe = Float.floor(:random.uniform * 20, 2)
+    market_cap = MarketCap.scrape(ticker)
 
-    changeset = Company.changeset(%Company{}, %{"name" => name, "ticker" => ticker, "pe" => pe})
+    changeset = Company.changeset(%Company{}, %{
+      "name" => name,
+      "ticker" => ticker,
+      "pe" => pe})
 
     if changeset.valid? do
       Repo.insert!(changeset)

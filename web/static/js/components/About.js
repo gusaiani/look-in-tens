@@ -25,7 +25,7 @@ class About extends Component {
         <h2>Technicalities</h2>
         <br/>
         <p>Look in Tens is being written using the super-high performance <a target="_blank" href="http://www.phoenixframework.org/">Phoenix</a> framework.</p>
-        <p>Source code for this project is at <a target="_blank" href="https://github.com/1Poema/look-in-tens">{"https://github.com/1Poema/look-in-tens"}</a>.<br/>If you need consulting on Phoenix or Javascript, contact me at <a target="_blank" href="https://www.twitter.com/gusaiani">https://www.twitter.com/gusaiani</a> or via <a href="mailto:gustavo@poe.ma">email</a>.</p>
+        <p>Source code for this project is at <a target="_blank" href="https://github.com/gusaiani/look-in-tens">{"https://github.com/gusaiani/look-in-tens"}</a>.<br/>If you need consulting on Phoenix or Javascript, contact me at <a target="_blank" href="https://www.twitter.com/gusaiani">https://www.twitter.com/gusaiani</a> or via <a href="mailto:gustavo@poe.ma">email</a>.</p>
         <br/>
 
         <h3>Log</h3>

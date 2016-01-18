@@ -18,10 +18,11 @@ Please, use [.editorconfig](http://editorconfig.org/).
 
 ### Install and Run
 
-1. From your app directory in the terminal, install dependencies with `mix deps.get`
-2. Create database with `mix ecto.create`
-3. Migrate database with `mix ecto.migrate`
-4. Start Phoenix endpoint with `mix phoenix.server`
+1. From your app directory in the terminal, install Elixir dependencies with `mix deps.get`
+2. Install npm dependencies with `npm install`
+3. Create database with `mix ecto.create`
+4. Migrate database with `mix ecto.migrate`
+5. Start Phoenix endpoint with `mix phoenix.server`
 
 Now you can visit `localhost:4000` from your browser.
 

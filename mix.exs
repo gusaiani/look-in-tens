@@ -4,11 +4,12 @@ defmodule Dez.Mixfile do
   def project do
     [app: :dez,
      version: "0.0.1",
-     elixir: "~> 1.2.0",
+     elixir: "~> 1.2.1",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     aliases: aliases,
      deps: deps]
   end
 
@@ -35,18 +36,23 @@ defmodule Dez.Mixfile do
   # Type `mix help deps` for examples and options
   defp deps do
     [
-      {:phoenix, "~> 1.1.1"},
+      {:phoenix, "~> 1.1.3"},
       {:phoenix_ecto, "~> 2.0"},
       {:postgrex, ">= 0.10.0"},
       {:phoenix_html, "~> 2.3.1"},
       {:cowboy, "~> 1.0.4"},
       {:quantum, ">= 1.6.1"},
-      {:httpoison, "~> 0.8"},
+      {:httpoison, "~> 0.8.1"},
       {:ex_csv, ">= 0.1.4"},
       {:phoenix_slim, ">= 0.4.0"},
       {:scrivener, ">= 1.1.0"},
-      {:phoenix_live_reload, "~> 1.0.2", only: :dev},
-      {:apex, "~> 0.3.2", only: :dev}
+      {:phoenix_live_reload, "~> 1.0.3", only: :dev},
+      {:apex, "~> 0.3.6", only: :dev}
     ]
+  end
+
+  defp aliases do
+    ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+     "ecto.reset": ["ecto.drop", "ecto.setup"]]
   end
 end

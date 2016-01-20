@@ -5,6 +5,7 @@ defmodule Dez.Company do
     field :name, :string
     field :ticker, :string
     field :pe, :float
+    field :market_cap, :string
 
     timestamps
   end

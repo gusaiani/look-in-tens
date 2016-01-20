@@ -1,6 +1,13 @@
 defmodule Scraper do
-  alias Dez.Company
-  alias Dez.Repo
+  use Application
+
+  def start(_type, _args) do
+    Dez.Supervisor.start_link()
+  end
+
+  def start_link(backend, query, query_ref, owner, limit) do
+    backend.start_link(query, query_ref, owner, limit)
+  end
 
   def scrape do
     scrape_stock_exchange(exchanges)
@@ -38,23 +45,44 @@ defmodule Scraper do
     IO.puts "Stock exchange scrape finished."
   end
 
-  defp add([head|tail]) do
-    name = Enum.at(head, 1)
-    ticker = Enum.at(head, 0)
-    pe = Float.floor(:random.uniform * 20, 2)
+  alias Dez.{Company, Repo}
+
+  defp add([company|tail]) do
+    ticker = Enum.at(company, 0)
     market_cap = MarketCap.scrape(ticker)
 
-    changeset = Company.changeset(%Company{}, %{
-      "name" => name,
-      "ticker" => ticker,
-      "pe" => pe})
+    case market_cap do
+      {:ok, market_cap} ->
+        name = Enum.at(company, 1)
+        pe = Float.floor(:random.uniform * 20, 2)
 
-    if changeset.valid? do
-      Repo.insert!(changeset)
-      IO.puts "New company added: #{name}!"
+        changeset = Company.changeset(%Company{}, %{
+          "name" => name,
+          "ticker" => ticker,
+          "pe" => pe,
+          "market_cap" => market_cap})
+
+          case Repo.insert(changeset) do
+            {:ok, _company} ->
+              IO.puts "New company added: #{name}"
+            {:error, changeset} ->
+              IO.inspect "Error saving #{name} to database."
+          end
     end
 
     add tail
+  end
+
+  defp await_results(children, opts) do
+    timeout = opts[:timeout] || 5000
+    timer = Process.send_after(self(), :timedout, timeout)
+    results = await_result(children, [], :infinity)
+    cleanup(timer)
+    results
+  end
+
+  defp await_result do
+
   end
 
   defp exchanges do

@@ -19,6 +19,7 @@ class Company extends Component {
         </div>
         <h2 className={getPEColor(pe)}>{pe}</h2>
         <span>PE10</span>
+        <div className="disclaimer">Please note that PE10 values presented here are still placeholders. This app is in development.</div>
       </div>
     )
   }

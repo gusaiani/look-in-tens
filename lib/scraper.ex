@@ -7,6 +7,17 @@ defmodule Scraper do
     end
   end
 
+  def add(companies) do
+    coordinator_pid = spawn(Dez.Coordinator, :loop, [[], Enum.count(companies)])
+
+    companies
+    |> Enum.each(fn company ->
+      worker_pid = spawn(MarketCap, :loop, [])
+      send worker_pid, {coordinator_pid, company}
+    end)
+  end
+
+
   defp get_companies_from_stock_exchange({_exchange, url}) do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
@@ -27,41 +38,6 @@ defmodule Scraper do
   defp parse_list(companies) do
     {:ok, table} = companies |> ExCsv.parse(headings: true)
     table.body
-  end
-
-  defp add([]) do
-    IO.puts "Stock exchange scrape finished."
-  end
-
-  defp add([company|tail]) do
-    ticker = Enum.at(company, 0)
-    market_cap = MarketCap.scrape(ticker)
-
-    case market_cap do
-      {:ok, market_cap} -> save(company, market_cap)
-    end
-
-    add tail
-  end
-
-  defp save(company, market_cap) do
-    IO.inspect(company)
-    name   = Enum.at(company, 1)
-    ticker = Enum.at(company, 0)
-    pe     = Float.floor(:random.uniform * 20, 2)
-
-    changeset = Company.changeset(%Company{}, %{
-      "name" => name,
-      "ticker" => ticker,
-      "pe" => pe,
-      "market_cap" => market_cap})
-
-      case Repo.insert(changeset) do
-        {:ok, _company} ->
-          IO.puts "New company added: #{name}"
-        {:error, _changeset} ->
-          IO.inspect "Error saving #{name} to database."
-      end
   end
 
   defp exchanges do

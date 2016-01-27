@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/1Poema/look-in-tens.svg?branch=master)](https://travis-ci.org/1Poema/look-in-tens)
+[![Build Status](https://travis-ci.org/gusaiani/look-in-tens.svg?branch=master)](https://travis-ci.org/gusaiani/look-in-tens)
 
 # Look in Tens
 

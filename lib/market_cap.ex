@@ -4,8 +4,6 @@ defmodule MarketCap do
       {sender_pid, company} ->
         ticker = Enum.at(company, 0)
         send(sender_pid, {:ok, company, scrape(ticker)})
-      # _ ->
-      #   send(_, "Unknown message")
     end
     loop
   end
@@ -18,6 +16,8 @@ defmodule MarketCap do
         parse(body)
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "#{ticker} market cap not found"
+      {:ok, %HTTPoison.Response{status_code: 999}} ->
+        IO.puts "#{ticker} took a 999 error"
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
     end

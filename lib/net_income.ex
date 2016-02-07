@@ -1,10 +1,14 @@
 defmodule Dez.Scraper.NetIncome do
-  def fetch do
-    url = "https://ycharts.com/companies/AAPL/net_income"
+
+  @trimesters 40
+
+  def fetch(ticker) do
+    url = "https://ycharts.com/companies/#{ticker}/net_income"
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         parse_quarterly_incomes(body)
+        |> average_incomes
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
       {:error, %HTTPoison.Error{reason: reason}} ->
@@ -13,15 +17,24 @@ defmodule Dez.Scraper.NetIncome do
   end
 
   def parse_quarterly_incomes(body) do
-    entries = Floki.find(body, ".histDataTable td")
+    Floki.find(body, ".histDataTable td")
     |> Enum.with_index
     |> Enum.map(fn({entry, index}) -> parse_quarterly_income({entry, index}) end)
+    |> Enum.with_index
+    |> Enum.filter(fn({_entry, index}) -> rem(index, 2) != 0 end)
+    |> Enum.map(fn({entry, _index}) -> entry end)
+    |> Enum.take(@trimesters)
+  end
 
-    IO.inspect(entries)
+  def average_incomes(incomes) do
+    teste = Enum.reduce(incomes, &(&1+&2)) / length(incomes)
+
+    IO.inspect(teste)
   end
 
   def parse_quarterly_income({entry, index}) when rem(index, 2) == 0 do
-    date_array = Floki.text(entry)
+    date_array =
+      Floki.text(entry)
       |> String.split([" "])
 
     month_name = Enum.at(date_array, 0)

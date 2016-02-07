@@ -1,28 +1,4 @@
 defmodule Scraper do
-  def net_income do
-    url = "https://ycharts.com/companies/AAPL/net_income"
-
-    case HTTPoison.get(url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        parse_quarterly_incomes(body)
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
-    end
-  end
-
-  def parse_quarterly_incomes(body) do
-    entries = Floki.find(body, ".histDataTable td")
-    # |> Floki.text
-
-    # IO.inspect(entries)
-    for entry <- entries do
-      IO.inspect(Floki.text(entry))
-      IO.puts("---------------------")
-    end
-  end
-
   def scrape do
     for exchange <- exchanges do
       get_companies_from_stock_exchange(exchange)

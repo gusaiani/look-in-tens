@@ -1,6 +1,4 @@
 defmodule Scraper do
-  alias Dez.{Company, Repo}
-
   def scrape do
     for exchange <- exchanges do
       get_companies_from_stock_exchange(exchange)

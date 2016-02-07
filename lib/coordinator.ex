@@ -1,16 +1,18 @@
 defmodule Dez.Coordinator do
-  alias Dez.{Company, Repo}
+  alias Dez.{Company, Repo, Scraper.NetIncome}
 
   def loop(results \\ [], results_expected) do
     receive do
       {:ok, company, market_cap} ->
         save(company, market_cap)
+        # |> NetIncome.fetch
+
         new_results = [market_cap|results]
 
         if results_expected == Enum.count(new_results) do
           send self, :exit
         end
-        
+
         loop(new_results, results_expected)
       :exit ->
         IO.puts("Scrape finished")
@@ -33,8 +35,8 @@ defmodule Dez.Coordinator do
     case Repo.insert(changeset) do
       {:ok, _company} ->
         IO.puts "New company added: #{name}"
+        ticker
       {:error, _changeset} ->
-        IO.inspect _changeset
         IO.inspect "Error saving #{name} to database."
     end
   end

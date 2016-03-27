@@ -38,16 +38,16 @@ defmodule Dez.Mixfile do
     [
       {:phoenix, "~> 1.1.4"},
       {:phoenix_ecto, "~> 2.0.1"},
-      {:postgrex, ">= 0.11.0"},
+      {:postgrex, ">= 0.11.1"},
       {:phoenix_html, "~> 2.5.0"},
       {:cowboy, "~> 1.0.4"},
-      {:quantum, ">= 1.6.1"},
+      {:quantum, ">= 1.7.1"},
       {:httpoison, "~> 0.8.1"},
       {:ex_csv, ">= 0.1.4"},
       {:phoenix_slim, ">= 0.4.0"},
       {:phoenix_live_reload, "~> 1.0.3", only: :dev},
-      {:apex, "~> 0.3.6", only: :dev},
-      {:floki, "~>0.7.1"}
+      {:apex, "~> 0.4.0", only: :dev},
+      {:floki, "~>0.8.0"}
     ]
   end
 

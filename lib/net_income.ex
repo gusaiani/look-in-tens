@@ -48,7 +48,7 @@ defmodule Dez.Scraper.NetIncome do
 
   def parse_quarterly_income({entry, _}) do
     Floki.text(entry)
-    |> String.replace(~r/\s/, "")
+    |> String.strip
     |> Float.parse
     |> calculate_income
   end

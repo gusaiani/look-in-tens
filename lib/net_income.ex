@@ -1,4 +1,5 @@
 defmodule Dez.Scraper.NetIncome do
+  alias Dez.NumberHelper
 
   @trimesters 40
 
@@ -11,8 +12,10 @@ defmodule Dez.Scraper.NetIncome do
         |> average_incomes
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
+        nil
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
+        nil
     end
   end
 
@@ -27,9 +30,7 @@ defmodule Dez.Scraper.NetIncome do
   end
 
   def average_incomes(incomes) do
-    teste = Enum.reduce(incomes, &(&1+&2)) / length(incomes)
-
-    IO.inspect(teste)
+    Enum.reduce(incomes, &(&1+&2)) / length(incomes)
   end
 
   def parse_quarterly_income({entry, index}) when rem(index, 2) == 0 do
@@ -48,9 +49,7 @@ defmodule Dez.Scraper.NetIncome do
 
   def parse_quarterly_income({entry, _}) do
     Floki.text(entry)
-    |> String.strip
-    |> Float.parse
-    |> calculate_income
+    |> NumberHelper.parse
   end
 
   def get_month_number(month_name) do
@@ -70,21 +69,5 @@ defmodule Dez.Scraper.NetIncome do
     }
 
     months[month_name]
-  end
-
-  def calculate_income({value, "B"}) do
-    value * 1_000_000_000
-  end
-
-  def calculate_income({value, "M"}) do
-    value * 1_000_000
-  end
-
-  def calculate_income({value, "K"}) do
-    value * 1_000
-  end
-
-  def calculate_income(_) do
-    :error
   end
 end

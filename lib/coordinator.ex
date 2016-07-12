@@ -6,10 +6,15 @@ defmodule Dez.Coordinator do
       {:ok, company, market_cap} ->
         new_results = [market_cap|results]
 
-        worker = Task.async(NetIncome, :fetch, company)
+        ticker = List.first(company)
+
+        worker = Task.async(NetIncome, :fetch, [ticker])
         net_income = Task.await(worker)
 
-        save(company, market_cap, net_income)
+        case net_income do
+          :error -> IO.puts "Error retrieving net income for #{ticker}"
+          _      -> save(company, market_cap, net_income)
+        end
 
         if results_expected == Enum.count(new_results) do
           send self, :exit

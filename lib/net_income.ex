@@ -4,6 +4,7 @@ defmodule Dez.Scraper.NetIncome do
   @trimesters 40
 
   def fetch(ticker) do
+    IO.inspect "Company ticker: #{ticker}"
     url = "https://ycharts.com/companies/#{ticker}/net_income"
 
     case HTTPoison.get(url) do
@@ -12,10 +13,10 @@ defmodule Dez.Scraper.NetIncome do
         |> average_incomes
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
-        nil
+        :error
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
-        nil
+        :error
     end
   end
 

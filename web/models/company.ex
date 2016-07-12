@@ -4,14 +4,15 @@ defmodule Dez.Company do
   schema "companies" do
     field :name, :string
     field :ticker, :string
-    field :pe, :float
-    field :market_cap, :string
+    field :pe10, :float
+    field :market_cap, :float
+    field :net_income, :float
 
     timestamps
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w(ticker pe market_cap)
+  @optional_fields ~w(ticker pe10 market_cap net_income)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

@@ -1,4 +1,14 @@
 defmodule Scraper do
+  def scrape_one_company do
+    {exchange, url} = List.first(exchanges)
+
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
+        company = companies |> parse_list |> List.first
+        add([company])
+    end
+  end
+
   def scrape do
     for exchange <- exchanges do
       get_companies_from_stock_exchange(exchange)

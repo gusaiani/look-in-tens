@@ -4,10 +4,17 @@ defmodule Dez.Coordinator do
   def loop(results \\ [], results_expected) do
     receive do
       {:ok, company, market_cap} ->
-        save(company, market_cap)
-        # |> NetIncome.fetch
-
         new_results = [market_cap|results]
+
+        ticker = List.first(company)
+
+        worker = Task.async(NetIncome, :fetch, [ticker])
+        net_income = Task.await(worker)
+
+        case net_income do
+          :error -> IO.puts "Error retrieving net income for #{ticker}"
+          _      -> save(company, market_cap, net_income)
+        end
 
         if results_expected == Enum.count(new_results) do
           send self, :exit
@@ -21,22 +28,28 @@ defmodule Dez.Coordinator do
     end
   end
 
-  defp save(company, market_cap) do
+  defp save(company, market_cap, net_income) do
     name = Enum.at(company, 1)
     ticker = Enum.at(company, 0)
-    pe = Float.floor(:random.uniform * 20, 2)
+    pe10 = net_income / market_cap
+
+    IO.inspect net_income
+    IO.inspect market_cap
+    IO.inspect pe10
 
     changeset = Company.changeset(%Company{}, %{
       "name" => name,
       "ticker" => ticker,
-      "pe" => pe,
-      "market_cap" => market_cap})
+      "pe10" => pe10,
+      "market_cap" => market_cap,
+      "net_income" => net_income})
 
     case Repo.insert(changeset) do
       {:ok, _company} ->
         IO.puts "New company added: #{name}"
         ticker
       {:error, _changeset} ->
+        IO.inspect changeset.errors
         IO.inspect "Error saving #{name} to database."
     end
   end

@@ -1,13 +1,15 @@
 use Mix.Config
 
+config :dez,
+  ecto_repos: [Dez.Repo]
+
 config :dez, Dez.Endpoint,
   url: [host: "localhost"],
-  root: Path.dirname(__DIR__),
   secret_key_base: "a06LEcnulDei+SDInZnzIzZ2kge9w9Md8zOsX4Z7ICziEQTF1grhwsTj+8g/pyaF",
   render_errors: [default_format: "html"],
   pubsub: [name: Dez.PubSub,
            adapter: Phoenix.PubSub.PG2]
-           
+
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]

@@ -1,4 +1,4 @@
-defmodule Dez.Endpoint do
+ defmodule Dez.Endpoint do
   use Phoenix.Endpoint, otp_app: :dez
 
   # Serve at "/" the static files from "priv/static" directory.

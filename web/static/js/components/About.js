@@ -31,6 +31,10 @@ class About extends Component {
         <h3>Log</h3>
         <br/>
 
+        <h5>2016 08 25 12:26</h5>
+        <p>Updated Elixir and React deps after a long hiatus.</p>
+        <p>Autocomplete component still complaining, but home screen renders.</p>
+
         <h5>2016 01 13 22:23</h5>
         <p>Implemented design.</p>
         <p>Moved all frontend markup to React.</p>

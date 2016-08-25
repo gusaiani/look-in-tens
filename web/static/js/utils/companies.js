@@ -1,4 +1,4 @@
-import values from 'lodash/object/values'
+import values from 'lodash/values'
 
 export function buildAutoSuggestItems(companies) {
   return values(companies.items).map(item => {

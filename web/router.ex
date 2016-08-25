@@ -15,13 +15,13 @@ defmodule Dez.Router do
   scope "/api", Dez do
     pipe_through :api
 
-    resources "companies", CompanyController, only: [:show]
-    get "companies/search/:query_str", CompanyController, :search
+    resources "/companies", CompanyController, only: [:show]
+    get "/companies/search/:query_str", CompanyController, :search
   end
 
   scope "/", Dez do
     pipe_through :browser
 
-    get "*path", PageController, :index
+    get "/*path", PageController, :index
   end
 end

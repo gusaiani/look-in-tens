@@ -13,6 +13,6 @@ defmodule Dez.CompanyView do
     %{id: company.id,
       name: company.name,
       ticker: company.ticker,
-      pe: company.pe}
+      pe: company.pe10}
   end
 end

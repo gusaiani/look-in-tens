@@ -21,6 +21,7 @@ defmodule Dez.Scraper.NetIncome do
   end
 
   def parse_quarterly_incomes(body) do
+    # Floki.parse(body) ...
     Floki.find(body, ".histDataTable td")
     |> Enum.with_index
     |> Enum.map(fn({entry, index}) -> parse_quarterly_income({entry, index}) end)

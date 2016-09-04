@@ -20,6 +20,11 @@ borderRadius = 4px
     border-bottom-left-radius borderRadius
     border-bottom-right-radius borderRadius
     z-index 2
+    &:empty
+      display none
+  &__items-list
+    margin 0
+    padding-left 0
   &__container--open input
     border-bottom-left-radius 0
     border-bottom-right-radius 0
@@ -33,11 +38,11 @@ borderRadius = 4px
     &:focus
       outline none
 
-
 .react-autowhatever__item
   border-bottom-left-radius borderRadius
   border-bottom-right-radius borderRadius
   cursor pointer
+  list-style none
   padding 10px 20px
   &:hover,
   &--focused

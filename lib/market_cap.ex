@@ -29,6 +29,7 @@ defmodule MarketCap do
   defp parse(body) do
     {:ok, table} = body
       |> ExCsv.parse(headings: false)
+
     hd(hd(table.body))
   end
 end

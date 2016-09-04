@@ -1,6 +1,6 @@
 defmodule Scraper do
   def scrape_one_company do
-    {exchange, url} = List.first(exchanges)
+    {_, url} = List.first(exchanges)
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
@@ -15,17 +15,6 @@ defmodule Scraper do
     end
   end
 
-  def add(companies) do
-    coordinator_pid = spawn(Dez.Coordinator, :loop, [[], Enum.count(companies)])
-
-    companies
-    |> Enum.each(fn company ->
-      worker_pid = spawn(MarketCap, :loop, [])
-      send worker_pid, {coordinator_pid, company}
-    end)
-  end
-
-
   defp get_companies_from_stock_exchange({_exchange, url}) do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
@@ -37,7 +26,7 @@ defmodule Scraper do
     end
   end
 
-  def import_companies(companies) do
+  defp import_companies(companies) do
     companies
     |> parse_list
     |> add
@@ -46,6 +35,16 @@ defmodule Scraper do
   defp parse_list(companies) do
     {:ok, table} = companies |> ExCsv.parse(headings: true)
     table.body
+  end
+
+  defp add(companies) do
+    coordinator_pid = spawn(Dez.Coordinator, :loop, [[], Enum.count(companies)])
+
+    companies
+    |> Enum.each(fn company ->
+      worker_pid = spawn(MarketCap, :loop, [])
+      send worker_pid, {coordinator_pid, company}
+    end)
   end
 
   defp exchanges do

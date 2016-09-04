@@ -1,9 +1,15 @@
 defmodule Dez.NumberHelper do
   def parse(value) do
-    value
-    |> String.strip
-    |> Float.parse
-    |> multiply
+    case value do
+      "N/A" ->
+        nil
+
+      _ ->
+        value
+          |> String.strip
+          |> Float.parse
+          |> multiply
+    end
   end
 
   def multiply({value, "B"}) do

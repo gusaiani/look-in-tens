@@ -1,19 +1,17 @@
-defmodule MarketCap do
+defmodule Dez.Scraper.MarketCap do
   alias Dez.{NumberHelper, Scraper.NetIncome}
 
   def loop do
     receive do
       {sender_pid, company} ->
         ticker = Enum.at(company, 0)
-        send(sender_pid, {:ok, company, scrape(ticker)})
+        send(sender_pid, {:ok, company, fetch(ticker)})
     end
     loop
   end
 
-  def scrape(ticker) do
-    url = "http://download.finance.yahoo.com/d/quotes.csv?s=#{ticker}&f=j1"
-
-    case HTTPoison.get(url) do
+  def fetch(ticker) do
+    case ticker |> url |> HTTPoison.get do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         parse(body)
         |> NumberHelper.parse
@@ -31,5 +29,9 @@ defmodule MarketCap do
       |> ExCsv.parse(headings: false)
 
     hd(hd(table.body))
+  end
+
+  defp url(ticker) do
+    "http://download.finance.yahoo.com/d/quotes.csv?s=#{ticker}&f=j1"
   end
 end

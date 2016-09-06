@@ -3,13 +3,24 @@ defmodule Dez.Scraper.NetIncome do
 
   @trimesters 40
 
+  def loop do
+    receive do
+      {sender_pid, company} ->
+        ticker = Enum.at(company, 0)
+        send(sender_pid, {:ok, company, fetch(ticker)})
+    end
+    loop
+  end
+
+
   def fetch(ticker) do
     IO.inspect "Company ticker: #{ticker}"
     url = "https://ycharts.com/companies/#{ticker}/net_income"
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        parse_quarterly_incomes(body)
+        body
+        |> parse_quarterly_incomes
         |> average_incomes
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
@@ -22,7 +33,8 @@ defmodule Dez.Scraper.NetIncome do
 
   def parse_quarterly_incomes(body) do
     # Floki.parse(body) ...
-    Floki.find(body, ".histDataTable td")
+    body
+    |> Floki.find(".histDataTable td")
     |> Enum.with_index
     |> Enum.map(fn({entry, index}) -> parse_quarterly_income({entry, index}) end)
     |> Enum.with_index

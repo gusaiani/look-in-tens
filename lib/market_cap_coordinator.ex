@@ -1,4 +1,4 @@
-defmodule Dez.Coordinator do
+defmodule Dez.MarketCapCoordinator do
   alias Dez.{Company, Repo}
   import Ecto.Query
 

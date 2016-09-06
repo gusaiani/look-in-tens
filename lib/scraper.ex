@@ -20,8 +20,9 @@ defmodule Scraper do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
         import_companies(companies)
       {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
+        IO.puts "Stock exchange data not found"
       {:error, %HTTPoison.Error{reason: reason}} ->
+        IO.puts "Error retrieving stock exchange data:"
         IO.inspect reason
     end
   end
@@ -38,7 +39,7 @@ defmodule Scraper do
   end
 
   defp add(companies) do
-    coordinator_pid = spawn(Dez.Coordinator, :loop, [[], Enum.count(companies)])
+    coordinator_pid = spawn(Dez.MarketCapCoordinator, :loop, [[], Enum.count(companies)])
 
     companies
     |> Enum.each(fn company ->

@@ -59,7 +59,7 @@ defmodule Dez.Scraper.NetIncomeCoordinator do
   defp edit(company, changes) do
     IO.inspect changes
     IO.inspect company
-    changeset = Ecto.Changeset.change(company, changes)
+    changeset = Company.changeset(company, changes)
     IO.inspect changeset
 
     case Repo.update(changeset) do

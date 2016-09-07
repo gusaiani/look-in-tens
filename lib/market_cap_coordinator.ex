@@ -57,7 +57,7 @@ defmodule Dez.Scraper.MarketCapCoordinator do
   end
 
   defp edit(company, changes) do
-    changeset = Ecto.Changeset.change(company, changes)
+    changeset = Company.changeset(company, changes)
 
     case Repo.update(changeset) do
         {:ok, _} ->

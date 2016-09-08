@@ -1,5 +1,5 @@
 defmodule Dez.Scraper.NetIncomeCoordinator do
-  alias Dez.{Company, Repo}
+  alias Dez.{Company, Repo, PE10}
   import Ecto.Query
 
   def loop(results \\ [], results_expected) do
@@ -23,6 +23,11 @@ defmodule Dez.Scraper.NetIncomeCoordinator do
       _ ->
         loop(results, results_expected)
     end
+  end
+
+  defp save(company, :error) do
+    name = Enum.at(company, 1)
+    IO.inspect "Skipping save on #{name} net income due to scrape error."
   end
 
   defp save(company, net_income) do
@@ -57,10 +62,12 @@ defmodule Dez.Scraper.NetIncomeCoordinator do
   end
 
   defp edit(company, changes) do
-    IO.inspect changes
-    IO.inspect company
-    changeset = Company.changeset(company, changes)
-    IO.inspect changeset
+    pe10 = PE10.calc(company.market_cap, changes["net_income"])
+
+    changeset =
+      company
+      |> Company.changeset(changes)
+      |> Company.changeset(%{"pe10" => pe10})
 
     case Repo.update(changeset) do
         {:ok, _} ->

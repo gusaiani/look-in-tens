@@ -1,5 +1,5 @@
 defmodule Dez.Scraper.MarketCap do
-  alias Dez.{NumberHelper, Scraper.NetIncome}
+  alias Dez.{NumberHelper}
 
   def loop do
     receive do
@@ -13,14 +13,17 @@ defmodule Dez.Scraper.MarketCap do
   def fetch(ticker) do
     case ticker |> url |> HTTPoison.get do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        IO.inspect "Found market cap url for #{ticker}."
         parse(body)
         |> NumberHelper.parse
       {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "#{ticker} market cap not found"
+        IO.puts "Market cap url for #{ticker} not found."
       {:ok, %HTTPoison.Response{status_code: 999}} ->
-        IO.puts "#{ticker} took a 999 error"
+        IO.puts "#{ticker} took a 999 error."
+        :error
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
+        :error
     end
   end
 

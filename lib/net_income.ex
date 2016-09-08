@@ -14,16 +14,15 @@ defmodule Dez.Scraper.NetIncome do
 
 
   def fetch(ticker) do
-    IO.inspect "Company ticker: #{ticker}"
-    url = "https://ycharts.com/companies/#{ticker}/net_income"
-
-    case HTTPoison.get(url) do
+    case ticker |> url |> HTTPoison.get do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        IO.inspect "Found net income url for #{ticker}."
         body
-        |> parse_quarterly_incomes
-        |> average_incomes
+        |> parse_quarterly
+        |> average
+        |> annualize
       {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Not found :("
+        IO.puts "Net income url for #{ticker} not found."
         :error
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
@@ -31,8 +30,7 @@ defmodule Dez.Scraper.NetIncome do
     end
   end
 
-  def parse_quarterly_incomes(body) do
-    # Floki.parse(body) ...
+  def parse_quarterly(body) do
     body
     |> Floki.find(".histDataTable td")
     |> Enum.with_index
@@ -43,11 +41,11 @@ defmodule Dez.Scraper.NetIncome do
     |> Enum.take(@trimesters)
   end
 
-  def average_incomes(incomes) do
+  defp average(incomes) do
     Enum.reduce(incomes, &(&1+&2)) / length(incomes)
   end
 
-  def parse_quarterly_income({entry, index}) when rem(index, 2) == 0 do
+  defp parse_quarterly_income({entry, index}) when rem(index, 2) == 0 do
     date_array =
       Floki.text(entry)
       |> String.split([" "])
@@ -61,12 +59,16 @@ defmodule Dez.Scraper.NetIncome do
     "#{year}-#{month}-#{day}"
   end
 
-  def parse_quarterly_income({entry, _}) do
+  defp parse_quarterly_income({entry, _}) do
     Floki.text(entry)
     |> NumberHelper.parse
   end
 
-  def get_month_number(month_name) do
+  defp annualize(income) do
+    income * 4
+  end
+
+  defp get_month_number(month_name) do
     months = %{
       "Jan." => "01",
       "Feb." => "02",
@@ -83,5 +85,9 @@ defmodule Dez.Scraper.NetIncome do
     }
 
     months[month_name]
+  end
+
+  defp url(ticker) do
+    "https://ycharts.com/companies/#{ticker}/net_income"
   end
 end

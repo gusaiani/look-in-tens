@@ -25,6 +25,11 @@ defmodule Dez.Scraper.MarketCapCoordinator do
     end
   end
 
+  defp save(company, :error) do
+    name = Enum.at(company, 1)
+    IO.inspect "Skipping save on #{name} market cap due to scrape error."
+  end
+
   defp save(company, market_cap) do
     name = Enum.at(company, 1)
     ticker = Enum.at(company, 0)

@@ -18,8 +18,8 @@ defmodule Dez.Scraper.MarketCap do
         |> NumberHelper.parse
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Market cap url for #{ticker} not found."
-      {:ok, %HTTPoison.Response{status_code: 999}} ->
-        IO.puts "#{ticker} took a 999 error."
+      {:ok, %HTTPoison.Response{status_code: status_code}} ->
+        IO.puts "Market cap url for #{ticker} took a #{status_code} error."
         :error
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason

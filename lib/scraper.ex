@@ -5,11 +5,11 @@ defmodule Scraper do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
         company = companies |> parse_list |> Enum.random |> IO.inspect
-
-        company = ["VVUS", "VIVUS, Inc.", "1.05", "109391090.55", "n/a", "1994", "Health Care",
-                   "Major Pharmaceuticals", "http://www.nasdaq.com/symbol/vvus", ""]
-
         add([company])
+
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        IO.inspect "Error scraping one company: #{reason}"
+        :error
     end
   end
 

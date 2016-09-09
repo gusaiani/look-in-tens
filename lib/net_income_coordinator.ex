@@ -62,12 +62,11 @@ defmodule Dez.Scraper.NetIncomeCoordinator do
   end
 
   defp edit(company, changes) do
-    pe10 = PE10.calc(company.market_cap, changes["net_income"])
 
     changeset =
       company
       |> Company.changeset(changes)
-      |> Company.changeset(%{"pe10" => pe10})
+      |> pe10_changeset({company.market_cap, changes["net_income"]})
 
     case Repo.update(changeset) do
         {:ok, _} ->
@@ -77,6 +76,13 @@ defmodule Dez.Scraper.NetIncomeCoordinator do
           IO.inspect "Error updating #{changes["name"]}"
           IO.inspect changeset.errors
           :error
+    end
+  end
+
+  defp pe10_changeset(changeset, {market_cap, net_income}) do
+    case PE10.calc(market_cap, net_income) do
+      {:ok, pe10} -> Company.changeset(changeset, %{"pe10" => pe10})
+      _ -> changeset
     end
   end
 end

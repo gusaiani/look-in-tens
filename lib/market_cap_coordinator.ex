@@ -1,5 +1,5 @@
 defmodule Dez.Scraper.MarketCapCoordinator do
-  alias Dez.{Company, Repo}
+  alias Dez.{Company, Repo, PE10}
   import Ecto.Query
 
   def loop(results \\ [], results_expected) do
@@ -62,7 +62,10 @@ defmodule Dez.Scraper.MarketCapCoordinator do
   end
 
   defp edit(company, changes) do
-    changeset = Company.changeset(company, changes)
+    changeset =
+      company
+      |> Company.changeset(changes)
+      |> pe10_changeset({changes["market_cap"], company.net_income})
 
     case Repo.update(changeset) do
         {:ok, _} ->
@@ -72,6 +75,13 @@ defmodule Dez.Scraper.MarketCapCoordinator do
           IO.inspect "Error updating #{changes["name"]}"
           IO.inspect changeset.errors
           :error
+    end
+  end
+
+  defp pe10_changeset(changeset, {market_cap, net_income}) do
+    case PE10.calc(market_cap, net_income) do
+      {:ok, pe10} -> Company.changeset(changeset, %{"pe10" => pe10})
+      _ -> changeset
     end
   end
 end

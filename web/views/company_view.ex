@@ -13,6 +13,6 @@ defmodule Dez.CompanyView do
     %{id: company.id,
       name: company.name,
       ticker: company.ticker,
-      pe: company.pe10}
+      pe: Float.floor(company.pe10, 2)}
   end
 end

@@ -12,8 +12,9 @@ defmodule Dez.CompanyController do
 
   def search(conn, %{"query_str" => query_str}) do
     companies = Repo.all from c in Company,
-                where: ilike(c.name, ^"#{query_str}%")
-                       or ilike(c.ticker, ^"#{query_str}%"),
+                where: (ilike(c.name, ^"%#{query_str}%")
+                       or ilike(c.ticker, ^"#{query_str}%"))
+                       and not(is_nil(c.pe10)),
                 limit: 5
     render(conn, "search.json", companies: companies)
   end

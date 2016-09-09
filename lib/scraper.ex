@@ -23,8 +23,8 @@ defmodule Scraper do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
         import_companies(companies)
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Stock exchange data not found"
+      {:ok, %HTTPoison.Response{status_code: status_code}} ->
+        IO.puts "Stock exchange data not found, status code #{status_code}"
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.puts "Error retrieving stock exchange data:"
         IO.inspect reason

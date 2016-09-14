@@ -1,6 +1,8 @@
 defmodule Scraper do
+  alias Dez.Scraper.StockExchanges
+
   def scrape_one_company do
-    {_, url} = Enum.random(exchanges)
+    url = StockExchanges.urls |> Enum.random
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
@@ -14,7 +16,7 @@ defmodule Scraper do
   end
 
   def scrape do
-    for exchange <- exchanges do
+    for exchange <- StockExchanges.urls do
       get_companies_from_stock_exchange(exchange)
     end
   end
@@ -56,11 +58,5 @@ defmodule Scraper do
       net_income_worker_pid = spawn(Dez.Scraper.NetIncome, :loop, [])
       send net_income_worker_pid, {net_income_coordinator_pid, company}
     end)
-  end
-
-  defp exchanges do
-    [{:NASDAQ, "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&render=download"},
-     {:AMEX, "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=AMEX&render=download"},
-     {:NYSE, "http://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NYSE&render=download"}]
   end
 end

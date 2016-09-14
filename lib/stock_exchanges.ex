@@ -1,4 +1,8 @@
 defmodule Dez.Scraper.StockExchanges do
+  @moduledoc """
+  Builds urls for stock exchanges.
+  """
+  
   @exchanges ["NASDAQ", "AMEX", "NYSE"]
 
   def urls do

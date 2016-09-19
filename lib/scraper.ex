@@ -1,7 +1,7 @@
 defmodule Scraper do
-  alias Dez.Scraper.StockExchanges
+  alias Dez.Scraper.{StockExchanges, MarketCapCoordinator, NetIncomeCoordinator}
 
-  def scrape_one_company do
+  def do_one_company do
     url = StockExchanges.urls |> Enum.random
 
     case HTTPoison.get(url) do
@@ -15,28 +15,21 @@ defmodule Scraper do
     end
   end
 
-  def scrape do
-    for exchange <- StockExchanges.urls do
-      get_companies_from_stock_exchange(exchange)
-    end
+  def start do
+    for url <- StockExchanges.urls, do: get_companies(url)
   end
 
-  defp get_companies_from_stock_exchange({_exchange, url}) do
+  defp get_companies(url) do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
-        import_companies(companies)
+        companies
+        |> parse_list
+        |> add
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
-        IO.puts "Stock exchange data not found, status code #{status_code}"
+        IO.inspect "Stock exchange data not found, status code #{status_code}"
       {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.puts "Error retrieving stock exchange data:"
-        IO.inspect reason
+        IO.inspect "Error retrieving stock exchange data: #{reason}"
     end
-  end
-
-  defp import_companies(companies) do
-    companies
-    |> parse_list
-    |> add
   end
 
   defp parse_list(companies) do

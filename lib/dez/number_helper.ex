@@ -2,7 +2,7 @@ defmodule Dez.NumberHelper do
   def parse(value) do
     case value do
       "N/A" ->
-        nil
+        :not_available
 
       _ ->
         value

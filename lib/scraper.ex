@@ -45,18 +45,7 @@ defmodule Scraper do
   end
 
   defp add(companies) do
-    company_count = Enum.count(companies)
-
-    market_cap_coordinator_pid = spawn(Dez.Scraper.MarketCapCoordinator, :loop, [[], company_count])
-    net_income_coordinator_pid = spawn(Dez.Scraper.NetIncomeCoordinator, :loop, [[], company_count])
-
-    companies
-    |> Enum.each(fn company ->
-      market_cap_worker_pid = spawn(Dez.Scraper.MarketCap, :loop, [])
-      send market_cap_worker_pid, {market_cap_coordinator_pid, company}
-
-      net_income_worker_pid = spawn(Dez.Scraper.NetIncome, :loop, [])
-      send net_income_worker_pid, {net_income_coordinator_pid, company}
-    end)
+    MarketCapCoordinator.fetch(companies)
+    NetIncomeCoordinator.fetch(companies)
   end
 end

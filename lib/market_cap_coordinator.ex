@@ -2,8 +2,30 @@ defmodule Dez.Scraper.MarketCapCoordinator do
   alias Dez.{Company, Repo, PE10}
   import Ecto.Query
 
+  def fetch(companies) do
+    company_count = Enum.count(companies)
+
+    coordinator_pid = spawn(__MODULE__, :loop, [[], company_count])
+
+    companies
+    |> Enum.each(fn company ->
+      worker_pid = spawn(Dez.Scraper.MarketCap, :loop, [])
+      send worker_pid, {coordinator_pid, company}
+    end)
+
+  end
+
   def loop(results \\ [], results_expected) do
     receive do
+      {:ok, _company, :not_available} ->
+        IO.inspect "Market Cap not found in url."
+        new_results = [:not_available | results]
+
+        if results_expected == Enum.count(new_results) do
+          send self, :exit
+        end
+
+        loop(new_results, results_expected)
       {:ok, company, market_cap} ->
         new_results = [market_cap|results]
 

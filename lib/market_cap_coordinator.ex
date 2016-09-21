@@ -1,8 +1,13 @@
 defmodule Dez.Scraper.MarketCapCoordinator do
+  @moduledoc """
+  This module is aware of the number of companies done getting Market Cap info for.
+  It relies on Dez.Scraper.MarketCap for retrieving the numbers for each company.
+  When it gets a valid number, this module stores it in the database.
+  """
   alias Dez.{Company, Repo, PE10}
   import Ecto.Query
 
-  def fetch(companies) do
+  def start(companies) do
     company_count = Enum.count(companies)
 
     coordinator_pid = spawn(__MODULE__, :loop, [[], company_count])
@@ -27,6 +32,8 @@ defmodule Dez.Scraper.MarketCapCoordinator do
 
         loop(new_results, results_expected)
       {:ok, company, market_cap} ->
+        IO.inspect "Market Cap: #{market_cap}"
+
         new_results = [market_cap|results]
 
         ticker = List.first(company)
@@ -42,8 +49,8 @@ defmodule Dez.Scraper.MarketCapCoordinator do
       :exit ->
         IO.puts "Scrape finished"
 
-      _ ->
-        loop(results, results_expected)
+      _->
+          loop(results, results_expected)
     end
   end
 
@@ -77,8 +84,7 @@ defmodule Dez.Scraper.MarketCapCoordinator do
           IO.puts "Company created: #{company["name"]}"
           company["ticker"]
         {:error, changeset} ->
-          IO.inspect changeset.errors
-          IO.inspect "Error creating #{company["name"]}"
+          IO.inspect "Error creating #{company["name"]}: #{changeset.errors}"
           :error
     end
   end
@@ -90,13 +96,12 @@ defmodule Dez.Scraper.MarketCapCoordinator do
       |> pe10_changeset({changes["market_cap"], company.net_income})
 
     case Repo.update(changeset) do
-        {:ok, _} ->
-          IO.puts "Company updated: #{changes["name"]}"
-          changes["ticker"]
-        {:error, changeset} ->
-          IO.inspect "Error updating #{changes["name"]}"
-          IO.inspect changeset.errors
-          :error
+      {:ok, _} ->
+        IO.puts "Company updated: #{changes["name"]}"
+        changes["ticker"]
+      {:error, changeset} ->
+        IO.inspect "Error updating #{changes["name"]}: #{changeset.errors}"
+        :error
     end
   end
 

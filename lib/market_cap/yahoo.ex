@@ -1,6 +1,10 @@
 defmodule Dez.Scraper.MarketCap.YahooFinance do
   alias Dez.{NumberHelper}
-  
+
+  def start(sender_pid, ticker) do
+    send(sender_pid, fetch(ticker))
+  end
+
   def fetch(ticker) do
     case ticker |> url |> HTTPoison.get do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->

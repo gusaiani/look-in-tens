@@ -2,7 +2,7 @@ defmodule Dez.Scraper.NetIncomeCoordinator do
   alias Dez.{Company, Repo, PE10}
   import Ecto.Query
 
-  def fetch(companies) do
+  def start(companies) do
     company_count = Enum.count(companies)
 
     coordinator_pid = spawn(__MODULE__, :loop, [[], company_count])

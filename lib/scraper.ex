@@ -6,7 +6,10 @@ defmodule Scraper do
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
-        company = companies |> parse_list |> Enum.random |> IO.inspect
+        # company = companies |> parse_list |> Enum.random |> IO.inspect
+
+        company = ["IGF", "iShares Global Infrastructure ETF", "40.51", "1033005000", "n/a",
+                   "n/a", "n/a", "n/a", "http://www.nasdaq.com/symbol/igf", ""]
         add([company])
 
       {:error, %HTTPoison.Error{reason: reason}} ->
@@ -38,7 +41,7 @@ defmodule Scraper do
   end
 
   defp add(companies) do
-    MarketCapCoordinator.fetch(companies)
-    NetIncomeCoordinator.fetch(companies)
+    MarketCapCoordinator.start(companies)
+    NetIncomeCoordinator.start(companies)
   end
 end

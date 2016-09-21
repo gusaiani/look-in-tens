@@ -1,12 +1,15 @@
 defmodule Scraper do
-  alias Dez.Scraper.StockExchanges
+  alias Dez.Scraper.{StockExchanges, MarketCapCoordinator, NetIncomeCoordinator}
 
-  def scrape_one_company do
+  def do_one_company do
     url = StockExchanges.urls |> Enum.random
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
-        company = companies |> parse_list |> Enum.random |> IO.inspect
+        # company = companies |> parse_list |> Enum.random |> IO.inspect
+
+        company = ["IGF", "iShares Global Infrastructure ETF", "40.51", "1033005000", "n/a",
+                   "n/a", "n/a", "n/a", "http://www.nasdaq.com/symbol/igf", ""]
         add([company])
 
       {:error, %HTTPoison.Error{reason: reason}} ->
@@ -15,28 +18,21 @@ defmodule Scraper do
     end
   end
 
-  def scrape do
-    for exchange <- StockExchanges.urls do
-      get_companies_from_stock_exchange(exchange)
-    end
+  def start do
+    for url <- StockExchanges.urls, do: get_companies(url)
   end
 
-  defp get_companies_from_stock_exchange({_exchange, url}) do
+  defp get_companies(url) do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
-        import_companies(companies)
+        companies
+        |> parse_list
+        |> add
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
-        IO.puts "Stock exchange data not found, status code #{status_code}"
+        IO.inspect "Stock exchange data not found, status code #{status_code}"
       {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.puts "Error retrieving stock exchange data:"
-        IO.inspect reason
+        IO.inspect "Error retrieving stock exchange data: #{reason}"
     end
-  end
-
-  defp import_companies(companies) do
-    companies
-    |> parse_list
-    |> add
   end
 
   defp parse_list(companies) do
@@ -45,18 +41,7 @@ defmodule Scraper do
   end
 
   defp add(companies) do
-    company_count = Enum.count(companies)
-
-    market_cap_coordinator_pid = spawn(Dez.Scraper.MarketCapCoordinator, :loop, [[], company_count])
-    net_income_coordinator_pid = spawn(Dez.Scraper.NetIncomeCoordinator, :loop, [[], company_count])
-
-    companies
-    |> Enum.each(fn company ->
-      market_cap_worker_pid = spawn(Dez.Scraper.MarketCap, :loop, [])
-      send market_cap_worker_pid, {market_cap_coordinator_pid, company}
-
-      net_income_worker_pid = spawn(Dez.Scraper.NetIncome, :loop, [])
-      send net_income_worker_pid, {net_income_coordinator_pid, company}
-    end)
+    MarketCapCoordinator.start(companies)
+    NetIncomeCoordinator.start(companies)
   end
 end

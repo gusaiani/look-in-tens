@@ -1,40 +1,28 @@
 defmodule Dez.Scraper.MarketCap do
-  alias Dez.{NumberHelper}
+  alias Dez.Scraper.MarketCap.{YahooFinance, Bloomberg}
+
+  @sourceModules [YahooFinance, Bloomberg]
 
   def loop do
     receive do
-      {sender_pid, company} ->
-        ticker = Enum.at(company, 0)
-        send(sender_pid, {:ok, company, fetch(ticker)})
+      {coordinator_pid, company, :not_available, dataSourcePosition} ->
+        IO.inspect "Failed getting valid market cap from source. Trying another source."
+        fetch(self(), coordinator_pid, company, dataSourcePosition + 1)
+      {coordinator_pid, company, result, _} ->
+        IO.inspect "Successful Market Cap Result"
+        IO.inspect result
+        send(coordinator_pid, {:ok, company, result})
+      {coordinator_pid, company} ->
+        fetch(self(), coordinator_pid, company)
     end
     loop
   end
 
-  def fetch(ticker) do
-    case ticker |> url |> HTTPoison.get do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        IO.inspect "Found market cap url for #{ticker}."
-        parse(body)
-        |> NumberHelper.parse
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Market cap url for #{ticker} not found."
-      {:ok, %HTTPoison.Response{status_code: status_code}} ->
-        IO.puts "Market cap url for #{ticker} took a #{status_code} error."
-        :error
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        IO.inspect reason
-        :error
-    end
-  end
+  def fetch(market_cap_pid, coordinator_pid, company, dataSourcePosition \\ 0) do
+    ticker = company |> Enum.at(0)
+    module = @sourceModules |> Enum.at(dataSourcePosition)
 
-  defp parse(body) do
-    {:ok, table} = body
-      |> ExCsv.parse(headings: false)
-
-    hd(hd(table.body))
-  end
-
-  defp url(ticker) do
-    "http://download.finance.yahoo.com/d/quotes.csv?s=#{ticker}&f=j1"
+    send(market_cap_pid,
+        {coordinator_pid, company, apply(module, :start, [market_cap_pid, ticker]), dataSourcePosition})
   end
 end

@@ -3,7 +3,7 @@ defmodule Dez.CompanyControllerTest do
 
   alias Dez.Company
 
-  @valid_attrs %{name: "some content", ticker: "some ticker", pe: 1.13}
+  @valid_attrs %{name: "some content", ticker: "some ticker", pe10: 1.13}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -19,7 +19,7 @@ defmodule Dez.CompanyControllerTest do
       "id" => company.id,
       "name" => company.name,
       "ticker" => company.ticker,
-      "pe" => company.pe}
+      "pe" => Float.floor(company.pe10, 2)}
   end
 
   test "does not show company and instead throws error when id is nonexistent", %{conn: conn} do
@@ -39,7 +39,7 @@ defmodule Dez.CompanyControllerTest do
       "id" => company.id,
       "name" => company.name,
       "ticker" => company.ticker,
-      "pe" => company.pe}]
+      "pe" => Float.floor(company.pe10, 2)}]
   end
 
 end

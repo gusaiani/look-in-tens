@@ -1,7 +1,7 @@
 defmodule Dez.Scraper.MarketCap do
   alias Dez.Scraper.MarketCap.{YahooFinance, Bloomberg}
 
-  @sourceModules [YahooFinance, Bloomberg]
+  @source_modules [YahooFinance, Bloomberg]
 
   def loop do
     receive do
@@ -25,13 +25,13 @@ defmodule Dez.Scraper.MarketCap do
   end
 
   def fetch(market_cap_pid, coordinator_pid, company, dataSourcePosition)
-  when dataSourcePosition >= (length(@sourceModules) - 1)  do
+  when dataSourcePosition >= (length(@source_modules) - 1)  do
     send(market_cap_pid, {coordinator_pid, company, :not_found})
   end
 
   def fetch(market_cap_pid, coordinator_pid, company, dataSourcePosition \\ 0) do
     ticker = company |> Enum.at(0)
-    module = @sourceModules |> Enum.at(dataSourcePosition)
+    module = @source_modules |> Enum.at(dataSourcePosition)
 
     send(market_cap_pid,
         {coordinator_pid, company, apply(module, :start, [market_cap_pid, ticker]), dataSourcePosition})

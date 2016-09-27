@@ -6,7 +6,8 @@ defmodule Dez.Scraper.MarketCap.Bloomberg do
   end
 
   def fetch(ticker) do
-    "2345"
+    # "2345"
+    :not_available
     # case ticker |> url |> HTTPoison.get do
     #   {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
     #     IO.inspect "Found market cap url for #{ticker}."

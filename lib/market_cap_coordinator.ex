@@ -22,9 +22,8 @@ defmodule Dez.Scraper.MarketCapCoordinator do
 
   def loop(results \\ [], results_expected) do
     receive do
-      {:ok, _company, :not_available} ->
-        IO.inspect "Market Cap not found in url."
-        new_results = [:not_available | results]
+      {:ok, _company, :not_found} ->
+        new_results = [:not_found | results]
 
         if results_expected == Enum.count(new_results) do
           send self, :exit

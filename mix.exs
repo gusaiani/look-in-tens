@@ -20,9 +20,10 @@ defmodule Dez.Mixfile do
     [
       mod: {Dez, []},
       applications: [
-        :sasl, :phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger,
+        :phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger,
         :phoenix_ecto, :postgrex, :quantum, :httpoison,
-        :ex_csv, :phoenix_slim, :floki, :gettext
+        :ex_csv, :phoenix_slim, :floki, :gettext,
+        # :sasl
       ]
     ]
   end

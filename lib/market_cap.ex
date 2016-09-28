@@ -24,12 +24,15 @@ defmodule Dez.Scraper.MarketCap do
     loop
   end
 
+  def fetch(market_cap_pid, coordinator_pid, company, dataSourcePosition \\ 0)
+
   def fetch(market_cap_pid, coordinator_pid, company, dataSourcePosition)
   when dataSourcePosition >= (length(@source_modules) - 1)  do
     send(market_cap_pid, {coordinator_pid, company, :not_found})
   end
 
-  def fetch(market_cap_pid, coordinator_pid, company, dataSourcePosition \\ 0) do
+
+  def fetch(market_cap_pid, coordinator_pid, company, dataSourcePosition) do
     ticker = company |> Enum.at(0)
     module = @source_modules |> Enum.at(dataSourcePosition)
 

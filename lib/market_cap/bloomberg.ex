@@ -1,12 +1,26 @@
 defmodule Dez.Scraper.MarketCap.Bloomberg do
+  @moduledoc """
+  Retrieves, scrapes, parses and sends mkt cap to coordinator from Bloomberg website.
+
+  Uses @cell_position to find the html element containing mkt cap position.
+
+  Uses @unit_char_position to find the mkt cap unit, be it m, b, k etc.
+  It is a substring of a string like this:
+    "market cap (b usd)"
+  So in this case it retrieves the b for multiplication in the number helper.
+  """
+
   alias Dez.{NumberHelper}
+
+  @cell_position 15 # Position at which mkt cap <div class="cell"> is displayed in html body.
+  @unit_char_position 13 # Position at which mkt cap "unit" character appears in string, see moduledoc.
 
   def start(sender_pid, ticker) do
     send(sender_pid, fetch(ticker))
   end
 
   def fetch(ticker) do
-    case ticker |> url |> HTTPoison.get do
+    case ticker |> sanitize |> url |> HTTPoison.get do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         IO.inspect "Found market cap url for #{ticker}."
 
@@ -24,26 +38,42 @@ defmodule Dez.Scraper.MarketCap.Bloomberg do
     end
   end
 
+  @spec sanitize(String.t) :: String.t
+  defp sanitize(ticker) do
+    ticker |> String.replace(".", "/")
+  end
+
   defp parse(body) do
-    cell_position = 15
-    unit_position = 13
+    node = parse_node(body)
 
-    {_, _, wrapper} =
-    body
-    |> Floki.find(".cell")
-    |> Enum.at(cell_position)
+    number = parse_cardinal(node)
+    unit = parse_unit(node)
 
-    number =
-      wrapper
-      |> Floki.find(".cell__value")
-      |> Floki.text
+    number <> unit
+  end
 
-    unit =
-      wrapper
-      |> Floki.find(".cell__label")
-      |> Floki.text
-      |> String.slice(unit_position, 1)
-      |> String.upcase
+  defp parse_node(body) do
+    {_, _, node} =
+      body
+      |> Floki.find(".cell")
+      |> Enum.at(@cell_position)
+
+    node
+  end
+
+  defp parse_cardinal(node) do
+    node
+    |> Floki.find(".cell__value")
+    |> Floki.text
+    |> String.trim
+  end
+
+  defp parse_unit(node) do
+    node
+    |> Floki.find(".cell__label")
+    |> Floki.text
+    |> String.slice(@unit_char_position, 1)
+    |> String.upcase
   end
 
   defp url(ticker) do

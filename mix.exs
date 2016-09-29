@@ -42,15 +42,15 @@ defmodule Dez.Mixfile do
       {:ex_csv, ">= 0.1.5"},
       {:floki, "~> 0.10.1"},
       {:gettext, "~> 0.11"},
-      {:httpoison, "~> 0.9.1"},
+      {:httpoison, "~> 0.9.2"},
       {:phoenix_ecto, "~> 3.0.1"},
-      {:phoenix_html, "~> 2.6"},
+      {:phoenix_html, "~> 2.7"},
       {:phoenix_live_reload, "~> 1.0.5", only: :dev},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_slim, ">= 0.4.0"},
       {:phoenix, "~> 1.2.1"},
-      {:postgrex, ">= 0.11.2"},
-      {:quantum, ">= 1.7.1"},
+      {:postgrex, ">= 0.12.0"},
+      {:quantum, ">= 1.8.0"},
     ]
   end
 

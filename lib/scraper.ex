@@ -1,15 +1,25 @@
 defmodule Scraper do
   alias Dez.Scraper.{StockExchanges, MarketCapCoordinator, NetIncomeCoordinator}
 
-  def do_one_company do
+  def company do
+    add([["AAPL", "Apple"]])
+  end
+
+  def company(company) when is_list(company) do
+    add([company])
+  end
+
+  def company(company) when is_binary(company) do
+    add([[company, company]])
+  end
+
+  def random() do
     url = StockExchanges.urls |> Enum.random
 
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
-        # company = companies |> parse_list |> Enum.random |> IO.inspect
+        company = companies |> parse_list |> Enum.random |> IO.inspect
 
-        company = ["IGF", "iShares Global Infrastructure ETF", "40.51", "1033005000", "n/a",
-                   "n/a", "n/a", "n/a", "http://www.nasdaq.com/symbol/igf", ""]
         add([company])
 
       {:error, %HTTPoison.Error{reason: reason}} ->

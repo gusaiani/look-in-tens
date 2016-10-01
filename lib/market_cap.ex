@@ -27,7 +27,7 @@ defmodule Dez.Scraper.MarketCap do
   def fetch(market_cap_pid, coordinator_pid, company, dataSourcePosition \\ 0)
 
   def fetch(market_cap_pid, coordinator_pid, company, dataSourcePosition)
-  when dataSourcePosition >= (length(@source_modules) - 1)  do
+  when dataSourcePosition == length(@source_modules)  do
     send(market_cap_pid, {coordinator_pid, company, :not_found})
   end
 

@@ -10,7 +10,7 @@ defmodule Dez.Scraper.MarketCap.Bloomberg do
   So in this case it retrieves the b for multiplication in the number helper.
   """
 
-  alias Dez.{NumberHelper}
+  alias Dez.NumberHelper
 
   @cell_position 15 # Position at which mkt cap <div class="cell"> is displayed in html body.
   @unit_char_position 13 # Position at which mkt cap "unit" character appears in string, see moduledoc.
@@ -46,10 +46,10 @@ defmodule Dez.Scraper.MarketCap.Bloomberg do
   defp parse(body) do
     node = parse_node(body)
 
-    number = parse_cardinal(node)
+    number = parse_number(node)
     unit = parse_unit(node)
 
-    number <> unit
+    {number, unit}
   end
 
   defp parse_node(body) do
@@ -61,11 +61,15 @@ defmodule Dez.Scraper.MarketCap.Bloomberg do
     node
   end
 
-  defp parse_cardinal(node) do
-    node
-    |> Floki.find(".cell__value")
-    |> Floki.text
-    |> String.trim
+  defp parse_number(node) do
+    {number, _} =
+      node
+      |> Floki.find(".cell__value")
+      |> Floki.text
+      |> String.trim
+      |> Float.parse
+
+    number
   end
 
   defp parse_unit(node) do
@@ -77,6 +81,6 @@ defmodule Dez.Scraper.MarketCap.Bloomberg do
   end
 
   defp url(ticker) do
-      "http://www.bloomberg.com/quote/#{ticker}:US"
+    "http://www.bloomberg.com/quote/#{ticker}:US"
   end
 end

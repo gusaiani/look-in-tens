@@ -29,7 +29,9 @@ defmodule Dez.Scraper.MarketCap.YahooFinance do
       body
       |> ExCsv.parse(headings: false)
 
-    hd(hd(table.body))
+    [[text]] = table.body
+
+    text |> Float.parse
   end
 
   defp url(ticker) do

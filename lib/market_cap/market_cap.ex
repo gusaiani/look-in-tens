@@ -1,7 +1,7 @@
 defmodule Dez.Scraper.MarketCap do
-  alias Dez.Scraper.MarketCap.{YahooFinance, Bloomberg}
+  alias Dez.Scraper.MarketCap.{YahooFinance, Bloomberg, GuruFocus}
 
-  @source_modules [YahooFinance, Bloomberg]
+  @source_modules [GuruFocus, YahooFinance, Bloomberg]
 
   def loop do
     receive do

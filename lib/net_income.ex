@@ -60,7 +60,10 @@ defmodule Dez.Scraper.NetIncome do
   end
 
   defp parse_quarterly_income({entry, _}) do
-    Floki.text(entry)
+    entry
+    |> Floki.text
+    |> String.trim
+    |> Float.parse
     |> NumberHelper.parse
   end
 

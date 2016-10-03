@@ -6,8 +6,6 @@ defmodule Dez.NumberHelper do
 
       _ ->
         value
-        |> String.strip
-        |> Float.parse
         |> multiply
     end
   end

@@ -12,7 +12,7 @@ defmodule Dez do
       # Start the Ecto repository
       supervisor(Dez.Repo, []),
       # Here you could define other workers and supervisors as children
-      # worker(Dez.Worker, [arg1, arg2, arg3]),
+      worker(Dez.Scraper, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

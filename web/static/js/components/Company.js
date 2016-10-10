@@ -9,7 +9,7 @@ function getPEColor(pe) {
 class Company extends Component {
   render() {
     const {company} = this.props
-    const {name, ticker, pe} = company
+    const {name, ticker, pe, updatedAt} = company
 
     return (
       <div className="company">
@@ -17,8 +17,9 @@ class Company extends Component {
           <h1>{name}</h1>
           <h4>{ticker}</h4>
         </div>
-        <h2 className={getPEColor(pe)}>{pe}</h2>
         <span>PE10</span>
+        <h2 className={getPEColor(pe)}>{pe}</h2>
+        <span>Last updated {updatedAt}</span>
       </div>
     )
   }

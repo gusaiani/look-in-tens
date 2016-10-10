@@ -22,7 +22,7 @@ defmodule Dez.Mixfile do
       applications: [
         :phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger,
         :phoenix_ecto, :postgrex, :quantum, :httpoison,
-        :ex_csv, :phoenix_slim, :floki, :gettext,
+        :ex_csv, :phoenix_slim, :floki, :gettext, :timex, :timex_ecto
         # :sasl
       ]
     ]
@@ -51,6 +51,8 @@ defmodule Dez.Mixfile do
       {:phoenix, "~> 1.2.1"},
       {:postgrex, ">= 0.12.0"},
       {:quantum, ">= 1.8.0"},
+      {:timex, "~> 3.0"},
+      {:timex_ecto, "~> 3.0"}
     ]
   end
 

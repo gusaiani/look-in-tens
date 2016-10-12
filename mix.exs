@@ -52,7 +52,8 @@ defmodule Dez.Mixfile do
       {:postgrex, ">= 0.12.0"},
       {:quantum, ">= 1.8.0"},
       {:timex, "~> 3.0"},
-      {:timex_ecto, "~> 3.0"}
+      {:timex_ecto, "~> 3.0"},
+      {:credo, "~> 0.4", only: [:dev, :test]}
     ]
   end
 

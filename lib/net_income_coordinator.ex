@@ -1,4 +1,8 @@
 defmodule Dez.Scraper.NetIncomeCoordinator do
+  @moduledoc """
+  Spawns a loop that handles scraping net income info for all companies.
+  """
+
   alias Dez.{Company, Repo, PE10}
   import Ecto.Query
 

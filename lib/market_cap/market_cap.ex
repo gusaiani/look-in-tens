@@ -7,7 +7,7 @@ defmodule Dez.Scraper.MarketCap do
     receive do
       {coordinator_pid, company, :not_found} ->
         IO.inspect "Failed getting valid market cap from all sources."
-        send(coordinator_pid, {:ok, company, :not_found})
+        send(coordinator_pid, {:ok, company, :not_found, self()})
       {coordinator_pid, company, :not_available, dataSourcePosition} ->
         IO.inspect "Failed getting valid market cap from source. Trying another source."
         fetch(self(), coordinator_pid, company, dataSourcePosition + 1)
@@ -17,7 +17,7 @@ defmodule Dez.Scraper.MarketCap do
       {coordinator_pid, company, result, _} ->
         IO.inspect "Successful Market Cap Result"
         IO.inspect result
-        send(coordinator_pid, {:ok, company, result})
+        send(coordinator_pid, {:ok, company, result, self()})
       {coordinator_pid, company} ->
         fetch(self(), coordinator_pid, company)
     end

@@ -1,32 +1,41 @@
 defmodule Dez.Scraper.NetIncome do
+  @moduledoc """
+
+  """
   alias Dez.NumberHelper
 
   @trimesters 40
 
-  def loop do
-    receive do
-      {sender_pid, company} ->
-        ticker = Enum.at(company, 0)
-        send(sender_pid, {:ok, company, fetch(ticker)})
-    end
-    loop
-  end
+  # def loop do
+  #   receive do
+  #     {sender_pid, company} ->
+  #       ticker = Enum.at(company, 0)
+  #       send(sender_pid, {:ok, company, fetch(ticker)})
+  #   end
+  #   loop
+  # end
 
 
-  def fetch(ticker) do
+  def fetch(company, coordinator_pid) do
+    ticker = Enum.at(company, 0)
+
     case ticker |> url |> HTTPoison.get do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         IO.inspect "Found net income url for #{ticker}."
-        body
-        |> parse_quarterly
-        |> average
-        |> annualize
+        net_income =
+          body
+          |> parse_quarterly
+          |> average
+          |> annualize
+
+        send(coordinator_pid, {:ok, company, net_income})
+
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Net income url for #{ticker} not found."
-        :error
+        send(coordinator_pid, :error)
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
-        :error
+        send(coordinator_pid, :error)
     end
   end
 

@@ -13,10 +13,8 @@ defmodule Dez.Scraper.NetIncomeCoordinator do
 
     companies
     |> Enum.each(fn company ->
-      worker_pid = spawn(Dez.Scraper.NetIncome, :loop, [])
-      send worker_pid, {coordinator_pid, company}
+      Dez.Scraper.NetIncome.fetch(company, coordinator_pid)
     end)
-
   end
 
   def loop(results \\ [], results_expected) do
@@ -32,6 +30,10 @@ defmodule Dez.Scraper.NetIncomeCoordinator do
           send self, :exit
         end
 
+        loop(new_results, results_expected)
+
+      :error ->
+        new_results = [:error|results]
         loop(new_results, results_expected)
 
       :exit ->

@@ -15,10 +15,13 @@ defmodule Dez.Scraper do
   end
 
   def init(state) do
+    if Mix.env == :dev, do: :observer.start
+
     if Mix.env == :prod do
       Process.send(self(), :do_market_caps, [])
       Process.send(self(), :do_net_incomes, [])
     end
+
     {:ok, state}
   end
 

@@ -47,7 +47,8 @@ defmodule Dez.Scraper.NetIncome do
 
   defp parse_quarterly_income({entry, index}) when rem(index, 2) == 0 do
     date_array =
-      Floki.text(entry)
+      entry
+      |> Floki.text()
       |> String.split([" "])
 
     month_name = Enum.at(date_array, 0)

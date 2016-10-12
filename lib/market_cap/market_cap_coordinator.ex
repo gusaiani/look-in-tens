@@ -22,7 +22,9 @@ defmodule Dez.Scraper.MarketCapCoordinator do
 
   def loop(results \\ [], results_expected) do
     receive do
-      {:ok, _company, :not_found} ->
+      {:ok, _company, :not_found, pid} ->
+        Process.exit(pid, :kill)
+
         new_results = [:not_found | results]
 
         if results_expected == Enum.count(new_results) do
@@ -30,7 +32,9 @@ defmodule Dez.Scraper.MarketCapCoordinator do
         end
 
         loop(new_results, results_expected)
-      {:ok, company, market_cap} ->
+      {:ok, company, market_cap, pid} ->
+        Process.exit(pid, :kill)
+
         IO.inspect "Market Cap: #{market_cap}"
 
         new_results = [market_cap|results]

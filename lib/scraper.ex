@@ -41,7 +41,7 @@ defmodule Dez.Scraper do
     Process.send_after(self(), :do_market_caps,  @market_cap_minutes * 60  * 1000)
   end
   defp schedule(:net_incomes) do
-    Process.send_after(self(), :do_net_incomes, @net_income_minutes * 15 * 1000)
+    Process.send_after(self(), :do_net_incomes, @net_income_minutes * 60 * 1000)
   end
 
   def start(module) do

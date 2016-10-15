@@ -7,26 +7,27 @@ defmodule Dez.Scraper do
 
   alias Dez.Scraper.{StockExchanges, MarketCapCoordinator, NetIncomeCoordinator}
 
-  @market_cap_minutes 0.5
-  @net_income_minutes 0.6
+  @market_cap_minutes 15
+  @net_income_minutes 240
 
   def start_link do
-    GenServer.start_link(__MODULE__, %{})
+    GenServer.start_link(__MODULE__, %{}, name: Joe)
   end
 
   def init(state) do
-    # if Mix.env == :dev, do: :observer.start
+    if Mix.env == :dev, do: :observer.start
 
-    # if Mix.env == :prod do
-      :timer.send_interval(5_000, :do_market_caps)
-      :timer.send_interval(5_000, :do_net_incomes)
-    # end
+    if Mix.env == :prod do
+      :timer.send_after(1, :do_market_caps)
+      :timer.send_after(5_000, :do_net_incomes)
+      :timer.send_interval(@market_cap_minutes * 60 * 1000, :do_market_caps)
+      :timer.send_interval(@net_income_minutes * 60 * 1000, :do_net_incomes)
+    end
 
     {:ok, state}
   end
 
   def handle_info(:do_market_caps, state) do
-    IO.inspect "aqui"
     start(MarketCapCoordinator)
     {:noreply, state}
   end
@@ -43,9 +44,8 @@ defmodule Dez.Scraper do
   defp get_companies(url, module) do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: companies}} ->
-        IO.inspect companies
-        # company_list = companies |> parse_list
-        # apply(module, :start, [company_list])
+        company_list = companies |> parse_list
+        apply(module, :start, [company_list])
 
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
         IO.inspect "Stock exchange data not found, status code #{status_code}"

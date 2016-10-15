@@ -19,7 +19,8 @@ defmodule Dez.CompanyControllerTest do
       "id" => company.id,
       "name" => company.name,
       "ticker" => company.ticker,
-      "pe" => Float.floor(company.pe10, 2)}
+      "pe" => Float.floor(company.pe10, 2),
+      "updatedAt" => "now"}
   end
 
   test "does not show company and instead throws error when id is nonexistent", %{conn: conn} do
@@ -39,7 +40,8 @@ defmodule Dez.CompanyControllerTest do
       "id" => company.id,
       "name" => company.name,
       "ticker" => company.ticker,
-      "pe" => Float.floor(company.pe10, 2)}]
+      "pe" => Float.floor(company.pe10, 2),
+      "updatedAt" => "now"}]
   end
 
 end

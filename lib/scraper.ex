@@ -7,19 +7,21 @@ defmodule Dez.Scraper do
 
   alias Dez.Scraper.{StockExchanges, MarketCapCoordinator, NetIncomeCoordinator}
 
-  @market_cap_minutes 10
-  @net_income_minutes 180
+  @market_cap_minutes 15
+  @net_income_minutes 240
 
   def start_link do
-    GenServer.start_link(__MODULE__, %{})
+    GenServer.start_link(__MODULE__, %{}, name: Joe)
   end
 
   def init(state) do
     if Mix.env == :dev, do: :observer.start
 
     if Mix.env == :prod do
-      Process.send(self(), :do_market_caps, [])
-      Process.send(self(), :do_net_incomes, [])
+      :timer.send_after(1, :do_market_caps)
+      :timer.send_after(5_000, :do_net_incomes)
+      :timer.send_interval(@market_cap_minutes * 60 * 1000, :do_market_caps)
+      :timer.send_interval(@net_income_minutes * 60 * 1000, :do_net_incomes)
     end
 
     {:ok, state}
@@ -27,21 +29,12 @@ defmodule Dez.Scraper do
 
   def handle_info(:do_market_caps, state) do
     start(MarketCapCoordinator)
-    schedule(:market_caps)
     {:noreply, state}
   end
 
   def handle_info(:do_net_incomes, state) do
     start(NetIncomeCoordinator)
-    schedule(:net_incomes)
     {:noreply, state}
-  end
-
-  defp schedule(:market_caps) do
-    Process.send_after(self(), :do_market_caps,  @market_cap_minutes * 60  * 1000)
-  end
-  defp schedule(:net_incomes) do
-    Process.send_after(self(), :do_net_incomes, @net_income_minutes * 60 * 1000)
   end
 
   def start(module) do

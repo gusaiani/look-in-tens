@@ -17,27 +17,27 @@ defmodule Dez.Scraper do
   def init(state) do
     if Mix.env == :dev, do: :observer.start
 
-    if Mix.env == :prod do
+    # if Mix.env == :prod do
       :timer.send_after(1, :do_market_caps)
       :timer.send_after(5_000, :do_net_incomes)
       :timer.send_interval(@market_cap_minutes * 60 * 1000, :do_market_caps)
       :timer.send_interval(@net_income_minutes * 60 * 1000, :do_net_incomes)
-    end
+    # end
 
     {:ok, state}
   end
 
   def handle_info(:do_market_caps, state) do
-    start(MarketCapCoordinator)
+    do_start(MarketCapCoordinator)
     {:noreply, state}
   end
 
   def handle_info(:do_net_incomes, state) do
-    start(NetIncomeCoordinator)
+    do_start(NetIncomeCoordinator)
     {:noreply, state}
   end
 
-  def start(module) do
+  def do_start(module) do
     for url <- StockExchanges.urls, do: get_companies(url, module)
   end
 

@@ -53,6 +53,7 @@ defmodule Dez.Mixfile do
       {:quantum, ">= 1.8.0"},
       {:timex, "~> 3.0"},
       {:timex_ecto, "~> 3.0"},
+      {:logger_file_backend, "0.0.9"},
       {:credo, "~> 0.4", only: [:dev, :test]}
     ]
   end

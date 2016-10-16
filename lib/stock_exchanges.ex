@@ -7,6 +7,7 @@ defmodule Dez.Scraper.StockExchanges do
 
   def urls do
     @exchanges
+    |> Enum.shuffle
     |> Enum.map(&url/1)
   end
 

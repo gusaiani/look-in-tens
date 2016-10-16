@@ -11,7 +11,7 @@ defmodule Dez.Scraper do
   @net_income_minutes 240
 
   def start_link do
-    GenServer.start_link(__MODULE__, %{}, name: Joe)
+    GenServer.start_link(__MODULE__, %{})
   end
 
   def init(state) do
